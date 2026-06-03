@@ -29,9 +29,9 @@ import {
 function openWhatsAppDirect(phone: string, text: string) {
   const encodedText = encodeURIComponent(text);
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  const url = isMobile
-    ? `https://wa.me/${phone}?text=${encodedText}`
-    : `https://api.whatsapp.com/send?phone=${phone}&text=${encodedText}`;
+ const url = isMobile
+  ? `https://wa.me/${phone}?text=${encodedText}`
+  : `https://web.whatsapp.com/send?phone=${phone}&text=${encodedText}`;
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
