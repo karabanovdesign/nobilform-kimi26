@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Homepage RU -->
+  <url>
+    <loc>https://nobilform.md/ru</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://nobilform.md/ru" />
+    <xhtml:link rel="alternate" hreflang="ro" href="https://nobilform.md/ro" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobilform.md/" />
+    <image:image>
+      <image:loc>https://nobilform.md/images/og-image.jpg</image:loc>
+      <image:title>NobilForm by KVDesign — премиальная мебель на заказ</image:title>
+      <image:caption>Авторская мебель и кухни премиум-класса в Кишиневе</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Homepage RO -->
+  <url>
+    <loc>https://nobilform.md/ro</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://nobilform.md/ro" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://nobilform.md/ru" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nobilform.md/" />
+  </url>
+
+  <!-- SEO Landing Pages — Kitchens -->
+  <url>
+    <loc>https://nobilform.md/kuhni-na-zakaz</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://nobilform.md/uglovye-kuhni</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nobilform.md/pryamye-kuhni</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nobilform.md/kuhni-s-ostrovom</loc>
+    <lastmod>2026-06-02</lastlastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- SEO Landing Pages — Wardrobes / Closets -->
+  <url>
+    <loc>https://nobilform.md/garderobnye</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nobilform.md/shkafy-kupe</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- SEO Landing Pages — TV Zones / Walls -->
+  <url>
+    <loc>https://nobilform.md/tv-zony</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nobilform.md/dekorativnye-steny</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- FAQ -->
+  <url>
+    <loc>https://nobilform.md/faq</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog -->
+  <url>
+    <loc>https://nobilform.md/blog</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Portfolio -->
+  <url>
+    <loc>https://nobilform.md/portfolio</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://nobilform.md/images/our_works/work01.jpg</image:loc>
+      <image:title>Кухонный гарнитур премиум — NobilForm</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nobilform.md/images/our_works/work02.png</image:loc>
+      <image:title>Кухня Soft Luxury — NobilForm</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nobilform.md/images/our_works/work06.png</image:loc>
+      <image:title>Гардеробная система — NobilForm</image:title>
+    </image:image>
+  </url>
+
+  <!-- Calculator -->
+  <url>
+    <loc>https://nobilform.md/calculator</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>

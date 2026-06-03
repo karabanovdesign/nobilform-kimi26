@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NobilForm by KVDesign — Premium Interior Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-graphite: #1a1a1a;
+            --color-beige: #c9b99a;
+            --color-warm-wood: #8b6f47;
+            --color-black-matte: #0d0d0d;
+            --color-light-stone: #e8e4de;
+            --color-white-matte: #f5f3ef;
+            --color-bronze: #b8945a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--color-black-matte);
+            color: var(--color-white-matte);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(13,13,13,0.7) 0%, rgba(26,26,26,0.5) 100%),
+                        url('images/horizontal/03_dark_kitchen.jpg') center/cover no-repeat;
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        .hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--color-bronze);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 300;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 1rem;
+            color: var(--color-white-matte);
+        }
+
+        .hero-title span {
+            display: block;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 400;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: var(--color-beige);
+            margin-top: 1rem;
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            font-weight: 300;
+            color: rgba(245, 243, 239, 0.7);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-bronze);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--color-bronze), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(13, 13, 13, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(184, 148, 90, 0.1);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--color-white-matte);
+        }
+
+        .nav-logo span {
+            color: var(--color-bronze);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(245, 243, 239, 0.7);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-bronze);
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 6rem 3rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--color-bronze);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            color: var(--color-white-matte);
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            font-size: 1rem;
+            font-weight: 300;
+            color: rgba(245, 243, 239, 0.6);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(13,13,13,0.9) 0%, transparent 100%);
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--color-white-matte);
+            margin-bottom: 0.3rem;
+        }
+
+        .gallery-item-subtitle {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--color-bronze);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 13, 13, 0.97);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+            color: var(--color-white-matte);
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        .lightbox-close:hover {
+            color: var(--color-bronze);
+        }
+
+        .lightbox-info {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .lightbox-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--color-white-matte);
+        }
+
+        .lightbox-subtitle {
+            font-size: 0.85rem;
+            color: var(--color-bronze);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 0.3rem;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: 1px solid rgba(184, 148, 90, 0.3);
+            color: var(--color-white-matte);
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .lightbox-nav:hover {
+            border-color: var(--color-bronze);
+            color: var(--color-bronze);
+        }
+
+        .lightbox-prev { left: 2rem; }
+        .lightbox-next { right: 2rem; }
+
+        /* ===== STATS ===== */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 6rem;
+            padding: 4rem 3rem;
+            background: rgba(26, 26, 26, 0.5);
+            border-top: 1px solid rgba(184, 148, 90, 0.1);
+            border-bottom: 1px solid rgba(184, 148, 90, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--color-bronze);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(245, 243, 239, 0.5);
+            margin-top: 0.5rem;
+        }
+
+        /* ===== CALCULATOR ===== */
+        .calculator-section {
+            background: rgba(26, 26, 26, 0.3);
+            border-top: 1px solid rgba(184, 148, 90, 0.1);
+            border-bottom: 1px solid rgba(184, 148, 90, 0.1);
+        }
+
+        .calculator-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 3rem;
+        }
+
+        .calculator-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .calc-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .calc-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .calc-group label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-bronze);
+        }
+
+        .calc-group select,
+        .calc-group input {
+            padding: 1rem 1.2rem;
+            background: rgba(245, 243, 239, 0.05);
+            border: 1px solid rgba(184, 148, 90, 0.2);
+            border-radius: 4px;
+            color: var(--color-white-matte);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .calc-group select:focus,
+        .calc-group input:focus {
+            border-color: var(--color-bronze);
+        }
+
+        .calc-group select option {
+            background: var(--color-graphite);
+            color: var(--color-white-matte);
+        }
+
+        .calc-result {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2.5rem;
+            background: rgba(184, 148, 90, 0.08);
+            border: 1px solid rgba(184, 148, 90, 0.2);
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .calc-result-label {
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(245, 243, 239, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-result-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--color-bronze);
+            line-height: 1;
+        }
+
+        .calc-result-note {
+            font-size: 0.8rem;
+            color: rgba(245, 243, 239, 0.4);
+            margin-top: 0.8rem;
+            font-style: italic;
+        }
+
+        .calc-button {
+            grid-column: 1 / -1;
+            padding: 1.2rem 3rem;
+            background: var(--color-bronze);
+            color: var(--color-black-matte);
+            border: none;
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .calc-button:hover {
+            background: var(--color-beige);
+            transform: translateY(-2px);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 4rem 3rem;
+            border-top: 1px solid rgba(184, 148, 90, 0.1);
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--color-white-matte);
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span {
+            color: var(--color-bronze);
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: rgba(245, 243, 239, 0.4);
+            letter-spacing: 2px;
+        }
+
+        .footer-copy {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: rgba(245, 243, 239, 0.2);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section {
+                padding: 4rem 1.5rem;
+            }
+
+            .lightbox-nav {
+                display: none;
+            }
+
+            .calculator-form {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-group.full-width {
+                grid-column: 1;
+            }
+
+            .calc-result-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-logo">NobilForm <span>by KVDesign</span></div>
+        <ul class="nav-links">
+            <li><a href="#kitchens">Кухни</a></li>
+            <li><a href="#wardrobes">Гардеробные</a></li>
+            <li><a href="#closets">Шкафы</a></li>
+            <li><a href="#tvzones">ТВ-зоны</a></li>
+            <li><a href="#walls">Стены</a></li>
+            <li><a href="#calculator">Калькулятор</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle">Premium Interior Collection</p>
+            <h1 class="hero-title">
+                NobilForm
+                <span>by KVDesign</span>
+            </h1>
+            <p class="hero-desc">
+                Премиальные интерьеры, созданные для ценителей безупречного дизайна. 
+                Кухни, гардеробные, ТВ-зоны и декоративные стены.
+            </p>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" id="collection">
+        <div class="stat-item">
+            <div class="stat-number">14+</div>
+            <div class="stat-label">Уникальных стилей</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">28+</div>
+            <div class="stat-label">Визуализаций</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Рубрик</div>
+        </div>
+    </section>
+
+    <!-- ===== KITCHENS ===== -->
+    <section class="section" id="kitchens">
+        <div class="section-header">
+            <p class="section-label">Портфолио</p>
+            <h2 class="section-title">Коллекция кухонь</h2>
+            <p class="section-desc">
+                Каждая кухня — это уникальная история. 10 различных стилей, 
+                объединенных премиальным качеством и безупречным вкусом.
+            </p>
+        </div>
+        <div class="gallery" id="gallery-kitchens"></div>
+    </section>
+
+    <!-- ===== WARDROBES ===== -->
+    <section class="section" id="wardrobes" style="background: rgba(26,26,26,0.3);">
+        <div class="section-header">
+            <p class="section-label">Гардеробные системы</p>
+            <h2 class="section-title">Гардеробные и кладовые</h2>
+            <p class="section-desc">
+                Функциональные гардеробные системы с продуманной организацией пространства. 
+                LED-подсветка, стеклянные фасады, островные решения.
+            </p>
+        </div>
+        <div class="gallery" id="gallery-wardrobes"></div>
+    </section>
+
+    <!-- ===== CLOSETS / HALLWAYS ===== -->
+    <section class="section" id="closets">
+        <div class="section-header">
+            <p class="section-label">Шкафы и прихожие</p>
+            <h2 class="section-title">Прихожие и шкафы</h2>
+            <p class="section-desc">
+                Элегантные решения для прихожих со встроенными шкафами, зеркалами, 
+                подсветкой и системами хранения.
+            </p>
+        </div>
+        <div class="gallery" id="gallery-closets"></div>
+    </section>
+
+    <!-- ===== TV ZONES ===== -->
+    <section class="section" id="tvzones" style="background: rgba(26,26,26,0.3);">
+        <div class="section-header">
+            <p class="section-label">ТВ-зоны</p>
+            <h2 class="section-title">Медиа-стены и ТВ-зоны</h2>
+            <p class="section-desc">
+                Стеновые панели с интеграцией телевизора, каминов и декоративных полок. 
+                LED-акцентная подсветка, мрамор и дерево.
+            </p>
+        </div>
+        <div class="gallery" id="gallery-tvzones"></div>
+    </section>
+
+    <!-- ===== DECORATIVE WALLS ===== -->
+    <section class="section" id="walls">
+        <div class="section-header">
+            <p class="section-label">Декоративные стены</p>
+            <h2 class="section-title">3D-панели и акцентные стены</h2>
+            <p class="section-desc">
+                Геометрические панели, рейки, комбинации дерева и камня с интегрированной подсветкой. 
+                Создаем визуальный фокус в любом пространстве.
+            </p>
+        </div>
+        <div class="gallery" id="gallery-walls"></div>
+    </section>
+
+    <!-- ===== CALCULATOR ===== -->
+    <section class="calculator-section" id="calculator">
+        <div class="calculator-container">
+            <div class="section-header">
+                <p class="section-label">Расчет стоимости</p>
+                <h2 class="section-title">Калькулятор проекта</h2>
+                <p class="section-desc">
+                    Предварительный расчет стоимости вашего премиального интерьера. 
+                    Окончательная цена формируется после консультации с дизайнером.
+                </p>
+            </div>
+            
+            <div class="calculator-form">
+                <div class="calc-group">
+                    <label for="calc-type">Тип проекта</label>
+                    <select id="calc-type">
+                        <option value="kitchen">Кухня</option>
+                        <option value="wardrobe">Гардеробная</option>
+                        <option value="closet">Шкафы / Прихожая</option>
+                        <option value="tvzone">ТВ-зона</option>
+                        <option value="wall">Декоративные стены</option>
+                        <option value="complex">Комплексный проект</option>
+                    </select>
+                </div>
+
+                <div class="calc-group">
+                    <label for="calc-area">Площадь (м²)</label>
+                    <input type="number" id="calc-area" placeholder="Например: 15" min="1" value="15">
+                </div>
+
+                <div class="calc-group">
+                    <label for="calc-material">Материал фасадов</label>
+                    <select id="calc-material">
+                        <option value="laminate">ЛДСП премиум</option>
+                        <option value="veneer">Шпон натуральный</option>
+                        <option value="matte">Матовый МДФ эмалевый</option>
+                        <option value="glossy">Глянцевый МДФ</option>
+                        <option value="solid">Массив дерева</option>
+                        <option value="glass">Стекло / Алюминий</option>
+                    </select>
+                </div>
+
+                <div class="calc-group">
+                    <label for="calc-countertop">Столешница</label>
+                    <select id="calc-countertop">
+                        <option value="quartz">Кварцевый агломерат</option>
+                        <option value="granite">Гранит натуральный</option>
+                        <option value="marble">Мрамор</option>
+                        <option value="dekton">Dekton / Silestone</option>
+                        <option value="wood">Деревянная столешница</option>
+                        <option value="hpl">HPL компакт-ламинат</option>
+                    </select>
+                </div>
+
+                <div class="calc-group">
+                    <label for="calc-hardware">Фурнитура</label>
+                    <select id="calc-hardware">
+                        <option value="basic">Blum / Hettich стандарт</option>
+                        <option value="premium">Blum Legrabox / Aventos</option>
+                        <option value="luxury">Kessebohmer / Peka premium</option>
+                    </select>
+                </div>
+
+                <div class="calc-group">
+                    <label for="calc-lighting">Подсветка</label>
+                    <select id="calc-lighting">
+                        <option value="none">Без подсветки</option>
+                        <option value="basic">Базовая LED</option>
+                        <option value="premium">Premium LED с диммером</option>
+                        <option value="smart">Smart LED / Philips Hue</option>
+                    </select>
+                </div>
+
+                <div class="calc-group full-width">
+                    <label for="calc-level">Уровень сложности дизайна</label>
+                    <select id="calc-level">
+                        <option value="1">Стандарт — прямые линии, минималистично</option>
+                        <option value="1.2">Премиум — комбинация материалов, остров</option>
+                        <option value="1.5">Luxury — сложная геометрия, витрины, интеграция техники</option>
+                        <option value="2">Bespoke — авторский дизайн, эксклюзивные материалы</option>
+                    </select>
+                </div>
+
+                <button class="calc-button" id="calc-btn">Рассчитать стоимость</button>
+
+                <div class="calc-result" id="calc-result" style="display: none;">
+                    <div class="calc-result-label">Предварительная стоимость</div>
+                    <div class="calc-result-value" id="calc-value">0 ₽</div>
+                    <div class="calc-result-note">Окончательная цена после замера и консультации с дизайнером</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-logo">NobilForm <span>by KVDesign</span></div>
+        <p class="footer-text">Премиальные интерьеры для избранных</p>
+        <p class="footer-copy">© 2025 NobilForm by KVDesign. Все права защищены.</p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev">&#8249;</button>
+        <button class="lightbox-nav lightbox-next" id="lightbox-next">&#8250;</button>
+        <img src="" alt="" id="lightbox-img">
+        <div class="lightbox-info">
+            <div class="lightbox-title" id="lightbox-title"></div>
+            <div class="lightbox-subtitle" id="lightbox-subtitle"></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== DATA =====
+        const kitchens = [
+            { title: "Минималистичная кухня", subtitle: "Чистые линии • Сдержанная элегантность", image: "images/horizontal/01_minimalist_kitchen.jpg" },
+            { title: "Кухня с островом", subtitle: "Центральный элемент • Мраморный остров", image: "images/horizontal/02_kitchen_island.jpg" },
+            { title: "Темная кухня", subtitle: "Матовый черный • Драматичный стиль", image: "images/horizontal/03_dark_kitchen.jpg" },
+            { title: "Светлая премиум-кухня", subtitle: "Soft matte • Нежная роскошь", image: "images/horizontal/04_light_premium.jpg" },
+            { title: "Деревянные фасады", subtitle: "Натуральное дерево • Тепло природы", image: "images/horizontal/05_wooden_facades.jpg" },
+            { title: "Каменные столешницы", subtitle: "Природный камень • Монументальность", image: "images/horizontal/06_stone_countertops.jpg" },
+            { title: "Кухня-гостиная", subtitle: "Open space • Свобода пространства", image: "images/horizontal/07_open_space.jpg" },
+            { title: "High-tech кухня", subtitle: "Технологии • Инновации • Будущее", image: "images/horizontal/08_high_tech.jpg" },
+            { title: "Elegant Modern", subtitle: "Классическая элегантность • Золотые акценты", image: "images/horizontal/09_elegant_modern.jpg" },
+            { title: "Warm Minimal", subtitle: "Теплый минимализм • Уют и гармония", image: "images/horizontal/10_warm_minimal.jpg" }
+        ];
+
+        const wardrobes = [
+            { title: "Walk-in Closet Premium", subtitle: "Стеклянные фасады • LED-подсветка • Остров", image: "images/wardrobes/01_wardrobe.jpg" },
+            { title: "Встроенный шкаф", subtitle: "Зеркальные двери • Органайзеры • Подсветка", image: "images/wardrobes/02_wardrobe.jpg" }
+        ];
+
+        const closets = [
+            { title: "Прихожая с зеркалами", subtitle: "Мрамор • Рейки • Система хранения обуви", image: "images/closets/01_closet.jpg" }
+        ];
+
+        const tvzones = [
+            { title: "ТВ-зона дерево + мрамор", subtitle: "Плавающие полки • LED-акценты", image: "images/tv_zones/01_tv_zone.jpg" },
+            { title: "Медиа-стена с камином", subtitle: "Bookmatched marble • Биокамин • Подсветка", image: "images/tv_zones/02_tv_zone.jpg" }
+        ];
+
+        const walls = [
+            { title: "Геометрические панели", subtitle: "3D-панели • LED-линии • Дерево + камень", image: "images/decorative_walls/01_dec_wall.jpg" }
+        ];
+
+        const allItems = [...kitchens, ...wardrobes, ...closets, ...tvzones, ...walls];
+        let currentIndex = 0;
+        let currentGallery = allItems;
+
+        // ===== RENDER GALLERY =====
+        function renderGallery(containerId, items) {
+            const container = document.getElementById(containerId);
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'gallery-item';
+                div.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}" loading="lazy">
+                    <div class="gallery-item-overlay">
+                        <h3 class="gallery-item-title">${item.title}</h3>
+                        <p class="gallery-item-subtitle">${item.subtitle}</p>
+                    </div>
+                `;
+                div.addEventListener('click', () => {
+                    currentGallery = allItems;
+                    currentIndex = currentGallery.indexOf(item);
+                    openLightbox();
+                });
+                container.appendChild(div);
+            });
+        }
+
+        renderGallery('gallery-kitchens', kitchens);
+        renderGallery('gallery-wardrobes', wardrobes);
+        renderGallery('gallery-closets', closets);
+        renderGallery('gallery-tvzones', tvzones);
+        renderGallery('gallery-walls', walls);
+
+        // ===== LIGHTBOX =====
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxSubtitle = document.getElementById('lightbox-subtitle');
+
+        function openLightbox() {
+            updateLightbox();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateLightbox() {
+            const item = currentGallery[currentIndex];
+            lightboxImg.src = item.image;
+            lightboxImg.alt = item.title;
+            lightboxTitle.textContent = item.title;
+            lightboxSubtitle.textContent = item.subtitle;
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % currentGallery.length;
+            updateLightbox();
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+            updateLightbox();
+        }
+
+        document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+        document.getElementById('lightbox-next').addEventListener('click', nextImage);
+        document.getElementById('lightbox-prev').addEventListener('click', prevImage);
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+
+        // ===== CALCULATOR =====
+        const prices = {
+            type: {
+                kitchen: 85000,
+                wardrobe: 65000,
+                closet: 45000,
+                tvzone: 55000,
+                wall: 35000,
+                complex: 75000
+            },
+            material: {
+                laminate: 1,
+                veneer: 1.4,
+                matte: 1.5,
+                glossy: 1.6,
+                solid: 2.2,
+                glass: 2.0
+            },
+            countertop: {
+                quartz: 15000,
+                granite: 22000,
+                marble: 28000,
+                dekton: 25000,
+                wood: 12000,
+                hpl: 8000
+            },
+            hardware: {
+                basic: 1,
+                premium: 1.3,
+                luxury: 1.8
+            },
+            lighting: {
+                none: 0,
+                basic: 5000,
+                premium: 12000,
+                smart: 20000
+            }
+        };
+
+        document.getElementById('calc-btn').addEventListener('click', function() {
+            const type = document.getElementById('calc-type').value;
+            const area = parseFloat(document.getElementById('calc-area').value) || 15;
+            const material = document.getElementById('calc-material').value;
+            const countertop = document.getElementById('calc-countertop').value;
+            const hardware = document.getElementById('calc-hardware').value;
+            const lighting = document.getElementById('calc-lighting').value;
+            const level = parseFloat(document.getElementById('calc-level').value);
+
+            const baseCost = prices.type[type] * area;
+            const materialMultiplier = prices.material[material];
+            const hardwareMultiplier = prices.hardware[hardware];
+            const countertopCost = prices.countertop[countertop] * (area * 0.4);
+            const lightingCost = prices.lighting[lighting];
+            const complexityMultiplier = level;
+
+            let total = (baseCost * materialMultiplier * hardwareMultiplier * complexityMultiplier) + countertopCost + lightingCost;
+            total = Math.round(total / 1000) * 1000;
+
+            const resultEl = document.getElementById('calc-result');
+            const valueEl = document.getElementById('calc-value');
+            
+            resultEl.style.display = 'block';
+            valueEl.textContent = total.toLocaleString('ru-RU') + ' ₽';
+            
+            resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ===== NAVBAR SCROLL =====
+        const nav = document.querySelector('.nav');
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            nav.style.background = currentScroll > 100 ? 'rgba(13, 13, 13, 0.95)' : 'rgba(13, 13, 13, 0.8)';
+        });
+    </script>
+</body>
+</html>
