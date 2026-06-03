@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createRouter, publicQuery } from "../middleware";
+import { createRouter, publicQuery } from "../middleware.js";
 
 // ===== SYSTEM PROMPTS =====
 const SYSTEM_PROMPT_RU = `Ты AI-консультант компании NobilForm.
