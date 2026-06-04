@@ -12,6 +12,8 @@ export interface ExtractedEntities {
   color: string;
   led: boolean;
   island: boolean;
+  kitchenForm: "linear" | "corner" | "ushape" | "none"; // formă bucătărie: liniară / în G / în U
+  appliances: boolean; // tehnică încorporabilă
 }
 
 // Word boundary that works for both Latin and Cyrillic
@@ -114,14 +116,56 @@ export function extractEntities(query: string, history: string[] = []): Extracte
   // Island
   const island = /(insula|insulă|остров)/i.test(lower);
 
-  return { doorType, buildType, material, product, size, color, led, island };
+  // Kitchen form: linear / corner / U-shape
+  let kitchenForm: ExtractedEntities["kitchenForm"] = "none";
+  if (/(прямая|линейная|liniar|liniara|liniară)/i.test(lower)) kitchenForm = "linear";
+  else if (/(угловая|г-образная|corner|unghiular|unghiulară|în g)/i.test(lower)) kitchenForm = "corner";
+  else if (/(п-образная|u-образная|в п-образн|în u|u shape)/i.test(lower)) kitchenForm = "ushape";
+
+  // Built-in appliances
+  const appliances = /(встроенная техника|техник|встраиваем|техника|electrocasnice|încorpor)/i.test(lower);
+
+  return { doorType, buildType, material, product, size, color, led, island, kitchenForm, appliances };
 }
 
 // ===== SMART FOLLOW-UP =====
 // Generates follow-up only about MISSING information
+// Product-specific: kitchen asks for form & appliances; closet asks for door type
 export function smartFollowUp(lang: "ru" | "ro", entities: ExtractedEntities): string {
   const missing: string[] = [];
 
+  // === KITCHEN-specific follow-up ===
+  if (entities.product === "bucatarie") {
+    if (!entities.size) missing.push(lang === "ro" ? "dimensiunea (în metri liniari)" : "размер (в погонных метрах)");
+    if (entities.kitchenForm === "none") missing.push(lang === "ro" ? "forma (liniară, în G sau în U)" : "форма (прямая, угловая или П-образная)");
+    if (entities.material === "none") missing.push(lang === "ro" ? "materialul fațadelor" : "материал фасадов");
+    if (!entities.color) missing.push(lang === "ro" ? "culoarea" : "цвет");
+    if (!entities.appliances) missing.push(lang === "ro" ? "tehnică încorporabilă (da/nu)" : "встроенная техника (да/нет)");
+
+    if (missing.length === 0) {
+      return lang === "ro"
+        ? "Am toate detaliile pentru bucătărie. Doriți să programați o consultare cu designerul?"
+        : "У меня есть все детали по кухне. Хотите записаться на консультацию с дизайнером?";
+    }
+    return buildMissingQuestion(lang, missing);
+  }
+
+  // === CLOSET / WARDROBE-specific follow-up ===
+  if (entities.product === "dulap" || entities.product === "dressing") {
+    if (!entities.size) missing.push(lang === "ro" ? "dimensiunea (lățime × înălțime)" : "размеры (ширина × высота)");
+    if (entities.doorType === "none") missing.push(lang === "ro" ? "tipul ușilor (glisante sau batante)" : "тип дверей (купе или распашные)");
+    if (entities.material === "none") missing.push(lang === "ro" ? "materialul" : "материал");
+    if (!entities.color) missing.push(lang === "ro" ? "culoarea" : "цвет");
+
+    if (missing.length === 0) {
+      return lang === "ro"
+        ? "Am toate detaliile pentru dulap. Doriți să programați o consultare cu designerul?"
+        : "У меня есть все детали по шкафу. Хотите записаться на консультацию с дизайнером?";
+    }
+    return buildMissingQuestion(lang, missing);
+  }
+
+  // === GENERIC follow-up ===
   if (!entities.size) missing.push(lang === "ro" ? "dimensiunea" : "размер");
   if (entities.material === "none") missing.push(lang === "ro" ? "materialul" : "материал");
 
@@ -131,6 +175,11 @@ export function smartFollowUp(lang: "ru" | "ro", entities: ExtractedEntities): s
       : "Хотите записаться на консультацию с дизайнером?";
   }
 
+  return buildMissingQuestion(lang, missing);
+}
+
+// Helper: builds a natural-language question from missing items
+function buildMissingQuestion(lang: "ru" | "ro", missing: string[]): string {
   if (missing.length === 1) {
     return lang === "ro"
       ? `Ce ${missing[0]} aveți în vedere?`

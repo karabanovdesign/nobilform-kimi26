@@ -302,30 +302,75 @@ function findByExactKeyword(query: string): RAGDocument | null {
   return null;
 }
 
+// ===== CTA: Call to action — always appended to price/measurement responses =====
+function cta(lang: "ru" | "ro"): string {
+  return lang === "ro"
+    ? "\n\nLăsați numărul sau scrieți-ne pe WhatsApp — designerul vă pregătește propunerea personalizată!"
+    : "\n\nОставьте номер или напишите в WhatsApp — дизайнер подготовит персональное предложение!";
+}
+
 // ===== PRICE REQUEST HANDLER =====
+// Asks for product-specific details before giving a price
 function handlePriceRequest(lang: "ru" | "ro", entities: ReturnType<typeof extractEntities>): string {
   // TV zones and decorative panels/walls — individual project
   if (entities.product === "tv" || entities.product === "perete") {
     if (lang === "ro") {
-      return `Acest produs se calculează ca proiect individual și complex, care necesită atenția maximă a designerului!\n\nDescrieți mai jos preferințele dvs. pentru produs — lățimea, înălțimea, caracterul decorativ, locul amplasării, elementele dorite (consolă suspendată pentru TV, noptieră, masă de lucru/birou).\n\nSau atașați o imagine în WhatsApp cu descrierea. De asemenea, puteți avea încredere în ideea designerului — vă vor ajuta cu alegerea!`;
+      return `Acest produs se calculează ca proiect individual și complex, care necesită atenția maximă a designerului!\n\nDescrieți mai jos preferințele dvs. pentru produs — lățimea, înălțimea, caracterul decorativ, locul amplasării, elementele dorite (consolă suspendată pentru TV, noptieră, masă de lucru/birou).\n\nSau atașați o imagine în WhatsApp cu descrierea. De asemenea, puteți avea încredere în ideea designerului — vă vor ajuta cu alegerea!` + cta(lang);
     }
-    return `Данное изделие рассчитывается как индивидуальный и сложный проект, который требует к себе максимального внимания дизайнера!\n\nОпишите ниже ваши предпочтения к изделию — ширину, высоту, декоративный характер, место расположения, желаемые элементы (подвесная консоль для ТВ, прикроватная тумба, стол рабочий/письменный).\n\nИли прикрепите изображение в WhatsApp с описанием. Также вы можете довериться идее самого дизайнера — в любом случае вам помогут с выбором!`;
+    return `Данное изделие рассчитывается как индивидуальный и сложный проект, который требует к себе максимального внимания дизайнера!\n\nОпишите ниже ваши предпочтения к изделию — ширину, высоту, декоративный характер, место расположения, желаемые элементы (подвесная консоль для ТВ, прикроватная тумба, стол рабочий/письменный).\n\nИли прикрепите изображение в WhatsApp с описанием. Также вы можете довериться идее самого дизайнера — в любом случае вам помогут с выбором!` + cta(lang);
   }
 
+  // === KITCHEN: ask for size, form, facades, color, built-in appliances ===
+  if (entities.product === "bucatarie") {
+    if (lang === "ro") {
+      let text = "Pentru un calcul precis al bucătăriei am nevoie de:\n";
+      if (!entities.size) text += "• dimensiunea (în metri liniari)\n";
+      text += "• formă: liniară, unghiulară sau în U\n";
+      text += "• tipul fațadelor (mat, lucios, furnir, PAL)\n";
+      if (!entities.color) text += "• culoarea dorită\n";
+      text += "• tehnică încorporabilă (da / nu)\n";
+      return text + cta(lang);
+    }
+    let text = "Для точного расчёта кухни подскажите:\n";
+    if (!entities.size) text += "• длину кухни (в погонных метрах)\n";
+    text += "• форма: прямая, угловая или П-образная\n";
+    text += "• тип фасадов (матовый, глянец, шпон, ЛДСП)\n";
+    if (!entities.color) text += "• желаемый цвет\n";
+    text += "• встроенная техника (да / нет)\n";
+    return text + cta(lang);
+  }
+
+  // === WARDROBE / CLOSET: ask for size, type, material, color ===
+  if (entities.product === "dulap" || entities.product === "dressing") {
+    if (lang === "ro") {
+      let text = "Pentru un calcul precis am nevoie de:\n";
+      if (!entities.size) text += "• dimensiunea (lățime × înălțime, în metri)\n";
+      text += "• tip: cu uși glisante sau batante\n";
+      if (entities.material === "none") text += "• materialul preferat\n";
+      if (!entities.color) text += "• culoarea dorită\n";
+      return text + cta(lang);
+    }
+    let text = "Для точного расчёта шкафа подскажите:\n";
+    if (!entities.size) text += "• размеры (ширина × высота, в метрах)\n";
+    text += "• тип: купе или распашной\n";
+    if (entities.material === "none") text += "• предпочтительный материал\n";
+    if (!entities.color) text += "• желаемый цвет\n";
+    return text + cta(lang);
+  }
+
+  // === GENERIC price request (product unknown) ===
   if (lang === "ro") {
     let text = "Pentru un calcul personalizat am nevoie de câteva detalii:\n";
     if (!entities.size) text += "• dimensiunea (în metri liniari)\n";
     if (entities.product === "none") text += "• tipul produsului (bucătărie, dressing, dulap etc.)\n";
     if (entities.material === "none") text += "• materialul preferat\n";
-    text += "\nLăsați numărul — designerul pregătește calculul exact.";
-    return text;
+    return text + cta(lang);
   }
   let text = "Для персонального расчёта мне нужно несколько деталей:\n";
   if (!entities.size) text += "• размер (в погонных метрах)\n";
   if (entities.product === "none") text += "• тип изделия (кухня, гардеробная, шкаф и т.д.)\n";
   if (entities.material === "none") text += "• предпочтительный материал\n";
-  text += "\nОставьте номер — дизайнер подготовит точный расчёт.";
-  return text;
+  return text + cta(lang);
 }
 
 // ===== CONTEXT-AWARE PATTERN MATCHING =====
@@ -523,11 +568,11 @@ export function generateResponse(lang: "ru" | "ro", query: string, _history: str
   }
 
   // 15. DESIGNER VISIT COST — strict answer
-  if (/(вызов.*дизайн|сколько.*дизайн|стоит.*дизайн|cost.*designer|preț.*designer|tax.*designer|cât.*designer)/i.test(lower)) {
+  if (/(вызов.*дизайн|сколько.*дизайн|стоит.*дизайн|cost.*designer|preț.*designer|tax.*designer|cât.*designer|замер|măsur|măsur|deplasare.*designer)/i.test(lower)) {
     strictReplies.push(
       lang === "ro"
-        ? "Timpul designerului este deseori utilizat din curiozitate, de aceea suntem nevoiți să percepem o taxă pentru vizita mesterului de 300-500 lei, în funcție de locația clientului și planurile privind numărul elementelor de mobilier.\n\nDar puteți aduce în birou (sau trimite prin poștă) schița dvs. desenată manual cu dimensiunile indicate, sau fotografia produsului dorit, iar la fața locului să povestiți ce corecții ați dori.\n\nProspețarea costului este gratuită și se efectuează în aceeași zi, cel mai des chiar în prezența clientului (dacă mobila nu are un caracter complex)."
-        : "Время дизайнера часто просто используют из любопытства, поэтому мы вынуждены брать плату за вызов мастера в размере 300-500 леев, в зависимости от местоположения заказчика и планов по количеству элементов мебели.\n\nНо вы всегда можете принести в офис (или переслать по почте) свой макет нарисованный от руки с указанными размерами (габаритами), можно также прислать или принести фотографию желаемого изделия, а уже на месте рассказать, какие корректировки хотели бы внести.\n\nПросчёт стоимости заказа — бесплатный и выполняется в течение дня, а чаще всего и в присутствии заказчика (если мебель не имеет сложный характер)."
+        ? "Măsurarea și calculul mobilierului sunt gratuite.\nDeplasarea designerului în Chișinău costă 300 lei.\nLa plasarea comenzii, costul deplasării se deduce integral din valoarea mobilierului."
+        : "Замер и просчёт мебели бесплатные.\nВыезд дизайнера по Кишинёву — 300 леев.\nПри оформлении заказа стоимость выезда полностью засчитывается в стоимость мебели."
     );
   }
 
@@ -594,6 +639,24 @@ export function generateResponse(lang: "ru" | "ro", query: string, _history: str
     );
   }
 
+  // 24. OBJECTION: "too expensive"
+  if (/(дорого|сильно дорог|prea scump|scump|недоступн|дороговато)/i.test(lower)) {
+    strictReplies.push(
+      lang === "ro"
+        ? "Vom selecta o soluție pentru bugetul dvs. Spuneți intervalul de preț dorit?"
+        : "Подберём решение под ваш бюджет. Подскажите желаемый диапазон стоимости?"
+    );
+  }
+
+  // 25. OBJECTION: "I'll think about it"
+  if (/(подумаю|подумаем|mai.*gândesc|gândesc|ma gandesc|voi.*gândi)/i.test(lower)) {
+    strictReplies.push(
+      lang === "ro"
+        ? "Pot transmite cererea dvs. designerului pentru pregătirea unei oferte individuale. Lăsați numărul dvs. de telefon — vă contactăm în 30 de minute."
+        : "Могу передать запрос дизайнеру для подготовки индивидуального предложения. Оставьте ваш номер телефона — свяжемся за 30 минут."
+    );
+  }
+
   // If any strict reply matched, return all of them together
   if (strictReplies.length > 0) {
     return strictReplies.join("\n\n");
@@ -601,9 +664,10 @@ export function generateResponse(lang: "ru" | "ro", query: string, _history: str
 
   // 24. Kitchen or closet — direct to calculator quick actions (BEFORE exact match)
   if (/(кухн|bucătărie|bucatarie|kitchen)/i.test(lower) || /(шкаф|dulap|closet)/i.test(lower)) {
-    return lang === "ro"
-      ? "Mai jos pentru dvs. am pregătit un răspuns simplu la întrebările dvs., derulați în jos în chat și veți găsi secțiunea \"ACȚIUNI RAPIDE\", alegeți calculatorul potrivit pentru dvs. și răspundeți la întrebări, dacă printre întrebări nu găsiți un răspuns potrivit pentru dvs., puteți contacta direct designerul la numărul +373 60 599 907 sau prin WhatsApp!"
-      : "Ниже для вас мы подготовили простой вариант на ответы по вашим вопросам, спуститесь ниже в чате вы найдете раздел \"БЫСТРЫЕ ДЕЙСТВИЯ\", выбирете подходящую для вас калькулятор и ответьте на вопросы, если в вопросах вы ненайдете подходящего ответа для вас вы можете связаться напрямую с дизайнером по номеру +373 60 599 907 или через WhatsApp!";
+    const calcText = lang === "ro"
+      ? "Mai jos am pregătit un răspuns simplu — derulați în chat și găsiți secțiunea \"ACȚIUNI RAPIDE\", alegeți calculatorul potrivit și răspundeți la întrebări."
+      : "Ниже мы подготовили простой вариант — спуститесь в чате, найдите раздел \"БЫСТРЫЕ ДЕЙСТВИЯ\", выберите калькулятор и ответьте на вопросы.";
+    return calcText + cta(lang);
   }
 
   // 25. Price request — ask for details, don't give price
@@ -615,14 +679,14 @@ export function generateResponse(lang: "ru" | "ro", query: string, _history: str
   if (looksLikeSize(query) && entities.product !== "none") {
     const size = extractSize(query);
     if (lang === "ro") {
-      return `Dimensiune ${size}m înregistrată.\n\n${smartFollowUp(lang, entities)}`;
+      return `Dimensiune ${size}m înregistrată.\n\n${smartFollowUp(lang, entities)}` + cta(lang);
     }
-    return `Размер ${size}м принят.\n\n${smartFollowUp(lang, entities)}`;
+    return `Размер ${size}м принят.\n\n${smartFollowUp(lang, entities)}` + cta(lang);
   }
 
   // 27. Pattern matching for common descriptive questions (context-aware)
   const patternResponse = matchPattern(lang, query, entities);
-  if (patternResponse) return patternResponse;
+  if (patternResponse) return patternResponse + cta(lang);
 
   // 28. Exact keyword match (тв, гардеробная, декоративные стены и т.д.)
   const exactDoc = findByExactKeyword(lower);
@@ -630,7 +694,7 @@ export function generateResponse(lang: "ru" | "ro", query: string, _history: str
     const text = lang === "ro" ? exactDoc.contentRo : exactDoc.content;
     const personalized = buildPersonalizedResponse(lang, text, entities);
     const followUp = smartFollowUp(lang, entities);
-    return personalized + "\n\n" + followUp;
+    return personalized + "\n\n" + followUp + cta(lang);
   }
 
   // 29. Keyword map (greetings, thanks, bye)
@@ -658,21 +722,21 @@ export function generateResponse(lang: "ru" | "ro", query: string, _history: str
     const text = lang === "ro" ? best.doc.contentRo : best.doc.content;
     const personalized = buildPersonalizedResponse(lang, text, entities);
     const followUp = smartFollowUp(lang, entities);
-    return personalized + "\n\n" + followUp;
+    return personalized + "\n\n" + followUp + cta(lang);
   }
 
   // 31. Smart fallback — use context product if available
   if (entities.product !== "none") {
-    return smartFollowUp(lang, entities);
+    return smartFollowUp(lang, entities) + cta(lang);
   }
 
   if (entities.material !== "none" || entities.doorType !== "none") {
-    if (lang === "ro") return "Am înțeles alegerea. Pentru a continua — ce dimensiune aveți în vedere?";
-    return "Понял выбор. Для продолжения — какой размер рассматриваете?";
+    const resp = lang === "ro" ? "Am înțeles alegerea. Pentru a continua — ce dimensiune aveți în vedere?" : "Понял выбор. Для продолжения — какой размер рассматриваете?";
+    return resp + cta(lang);
   }
 
   // 32. Final fallback
   return lang === "ro"
-    ? "Pentru un răspuns mai precis, contactați designerul la numărul +373 60 599 907 direct sau prin WhatsApp sau scrieți-ne un e-mail cu fișierele atașate."
-    : "Для более точного ответа, свяжитесь с дизайнером по номеру +373 60 599 907 напрямую или через WhatsApp или напишите нам на почту с прикрепленными файлами";
+    ? "Pentru un răspuns personalizat, lăsați numărul sau contactați-ne pe WhatsApp: +373 60 599 907. Vă sunăm în 30 de minute!"
+    : "Для персонального ответа оставьте номер или напишите в WhatsApp: +373 60 599 907. Перезвоним за 30 минут!";
 }
