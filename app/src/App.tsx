@@ -42,7 +42,7 @@ function AppContent() {
           <Route path="/dekorativnye-steny" element={<SeoWallsPage />} />
           <Route path="/thank-you" element={<ThankYouPage />} />
         </Routes>
-        <ChatWidget />
+        {location.pathname !== "/thank-you" && <ChatWidget />}
       </div>
     </LangProvider>
   );
