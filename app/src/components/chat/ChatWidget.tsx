@@ -790,8 +790,9 @@ export default function ChatWidget() {
             //          приедет ли дизайнер, выезд на замер, стоимость замера, замерщик,
             //          designer visit, designer visit cost, deplasare designer, vizita designerului
             const hasDesignerVisit = /(выезд|вызов|приедет|приезжает|deplasare|vizita|vizit)/i.test(trimmed) && /(дизайн|designer|design|мастер|meister)/i.test(trimmed);
-            const hasMeasurement = /(замер|măsur)/i.test(trimmed);
-            if (hasDesignerVisit || hasMeasurement) {
+            const hasMeasurement = /(замер|măsur|замерщик)/i.test(trimmed);
+            const hasHomeVisit = /(выезд.*дом|выезжаете.*дом)/i.test(trimmed);
+            if (hasDesignerVisit || hasMeasurement || hasHomeVisit) {
               response = currentLang === "ro"
                 ? "Deplasarea designerului în Chișinău costă 300 lei.\n\nLa plasarea comenzii această sumă se deduce integral din valoarea mobilierului.\n\nPentru programare scrieți în WhatsApp: +373 60 599 907."
                 : "Выезд дизайнера по Кишинёву стоит 300 леев.\n\nПри оформлении заказа эта сумма полностью вычитается из стоимости мебели.\n\nДля согласования времени напишите в WhatsApp: +373 60 599 907.";

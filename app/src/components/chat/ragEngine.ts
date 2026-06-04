@@ -559,8 +559,11 @@ export function generateResponse(lang: "ru" | "ro", query: string, _history: str
     );
   }
 
-  // 15. DESIGNER VISIT COST — unified answer (measurement + designer visit)
-  if (/(вызов.*дизайн|сколько.*дизайн|стоит.*дизайн|cost.*designer|preț.*designer|tax.*designer|cât.*designer|замер|măsur|deplasare.*designer)/i.test(lower)) {
+  // 15. DESIGNER VISIT COST — unified answer (designer visit + measurement)
+  // Triggers: выезд дизайнера, вызов дизайнера, стоимость выезда, замер, стоимость замера,
+  //   замерщик, выезд на замер, выезд на дом, выезжаете на дом,
+  //   designer visit, designer visit cost, deplasare designer, vizita designerului
+  if (/(вызов.*дизайн|сколько.*дизайн|стоит.*дизайн|выезд.*дизайн|выезд.*дом|выезжаете.*дом|замерщик|стоимость.*замер|замер|cost.*designer|preț.*designer|tax.*designer|cât.*designer|deplasare.*designer|vizita.*designer)/i.test(lower)) {
     strictReplies.push(
       lang === "ro"
         ? "Deplasarea designerului în Chișinău costă 300 lei.\n\nLa plasarea comenzii această sumă se deduce integral din valoarea mobilierului.\n\nPentru programare scrieți în WhatsApp: +373 60 599 907."
