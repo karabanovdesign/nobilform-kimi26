@@ -559,12 +559,12 @@ export function generateResponse(lang: "ru" | "ro", query: string, _history: str
     );
   }
 
-  // 15. DESIGNER VISIT COST — strict answer
-  if (/(вызов.*дизайн|сколько.*дизайн|стоит.*дизайн|cost.*designer|preț.*designer|tax.*designer|cât.*designer|замер|măsur|măsur|deplasare.*designer)/i.test(lower)) {
+  // 15. DESIGNER VISIT COST — unified answer (measurement + designer visit)
+  if (/(вызов.*дизайн|сколько.*дизайн|стоит.*дизайн|cost.*designer|preț.*designer|tax.*designer|cât.*designer|замер|măsur|deplasare.*designer)/i.test(lower)) {
     strictReplies.push(
       lang === "ro"
-        ? "Măsurarea și calculul mobilierului sunt gratuite.\nDeplasarea designerului în Chișinău costă 300 lei.\nLa plasarea comenzii, costul deplasării se deduce integral din valoarea mobilierului."
-        : "Замер и просчёт мебели бесплатные.\nВыезд дизайнера по Кишинёву — 300 леев.\nПри оформлении заказа стоимость выезда полностью засчитывается в стоимость мебели."
+        ? "Deplasarea designerului în Chișinău costă 300 lei.\n\nLa plasarea comenzii această sumă se deduce integral din valoarea mobilierului.\n\nPentru programare scrieți în WhatsApp: +373 60 599 907."
+        : "Выезд дизайнера по Кишинёву стоит 300 леев.\n\nПри оформлении заказа эта сумма полностью вычитается из стоимости мебели.\n\nДля согласования времени напишите в WhatsApp: +373 60 599 907."
     );
   }
 
