@@ -271,14 +271,6 @@ const KEYWORD_MAP: { keywords: string[]; docId: string }[] = [
   { keywords: ["whatsapp", "ватсап", "whats app"], docId: "whatsapp" },
 ];
 
-// ===== FALLBACKS =====
-const FALLBACKS_RU = [
-  "Для уточнения этих деталей свяжитесь с дизайнером:\n📱 +373 60 599 907\n📧 nobilaform@gmail.com",
-];
-const FALLBACKS_RO = [
-  "Pentru detalii contactați designerul:\n📱 +373 60 599 907\n📧 nobilaform@gmail.com",
-];
-
 // ===== EXACT MATCHES =====
 const EXACT_MATCHES: { keywords: string[]; docIds: string[] }[] = [
   { keywords: ["шкаф", "шкафы", "dulap", "dulapuri", "cupe", "купе"], docIds: ["closet", "wardrobe"] },
@@ -380,7 +372,7 @@ function matchPattern(lang: "ru" | "ro", query: string, entities: ExtractedEntit
 
   // --- BUDGET requests ---
   if (/(nu foarte scump|ieftin|budget|бюджет|недорог|дешев|econom|эконом)/i.test(lower)) {
-    let text = lang === "ro"
+    const text = lang === "ro"
       ? "Pentru un buget accesibil recomand PAL EGGER sau AGT MDF laminat."
       : "Для доступного бюджета рекомендую ЛДСП EGGER или AGT МДФ - ламинат.";
     return text + "\n\n" + smartFollowUp(lang, entities);
@@ -388,7 +380,7 @@ function matchPattern(lang: "ru" | "ro", query: string, entities: ExtractedEntit
 
   // --- MATERIAL requests ---
   if (/(material|materialul|материал|din ce se face|din ce este)/i.test(lower)) {
-    let text = lang === "ro"
+    const text = lang === "ro"
       ? "5 variante: PAL EGGER, AGT MDF - laminat, MDF mat, MDF lucios, MDF furnir."
       : "5 вариантов: ЛДСП EGGER, AGT МДФ - ламинат, МДФ мат, МДФ глянец, МДФ шпон.";
     return text + "\n\n" + smartFollowUp(lang, entities);
@@ -396,7 +388,7 @@ function matchPattern(lang: "ru" | "ro", query: string, entities: ExtractedEntit
 
   // --- STYLE requests ---
   if (/(stil|стиль|ce stil|какой стиль|tip|тип)/i.test(lower)) {
-    let text = lang === "ro"
+    const text = lang === "ro"
       ? "7 stiluri: Modern Minimal, Japandi, Warm Minimalism, Soft Luxury, Dark Premium, Natural Wood, Contemporary."
       : "7 стилей: Modern Minimal, Japandi, Warm Minimalism, Soft Luxury, Dark Premium, Natural Wood, Contemporary.";
     return text + "\n\n" + smartFollowUp(lang, entities);

@@ -29,9 +29,9 @@ import {
 function openWhatsAppDirect(phone: string, text: string) {
   const encodedText = encodeURIComponent(text);
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
- const url = isMobile
-  ? `https://wa.me/${phone}?text=${encodedText}`
-  : `https://web.whatsapp.com/send?phone=${phone}&text=${encodedText}`;
+  const url = isMobile
+    ? `https://wa.me/${phone}?text=${encodedText}`
+    : `https://api.whatsapp.com/send?phone=${phone}&text=${encodedText}`;
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
@@ -756,25 +756,54 @@ export default function ChatWidget() {
             }
             // --- NORMAL chat ---
             else {
-              // Check if client wants to order a product → enter wizard mode
-              const productKeywords: Record<string, string> = {
-                шкаф: "шкаф", dulap: "шкаф", cupe: "шкаф", купе: "шкаф", "шкафы": "шкаф",
-                кухня: "кухня", bucatarie: "кухня", bucătărie: "кухня", kitchen: "кухня",
-                гардеробная: "гардеробная", dressing: "гардеробная", "гардеробные": "гардеробная",
-                "тв-зона": "ТВ-зона", "тв зона": "ТВ-зона", tv: "ТВ-зона", телевизор: "ТВ-зона", televizor: "ТВ-зона",
-                стена: "стена", perete: "стена", "декоративная стена": "стена", "3d панель": "стена",
-              };
-              let foundProduct = "";
-              for (const [kw, prod] of Object.entries(productKeywords)) {
-                if (trimmed.toLowerCase().includes(kw)) { foundProduct = prod; break; }
-              }
+              const lowerTrimmed = trimmed.toLowerCase();
 
-              if (foundProduct === "шкаф" || foundProduct === "кухня") {
-                // Kitchen / closet → direct to calculator quick actions
+              // === 1. DESIGNER VISIT COST ===
+              if (/(выезд.*дизайн|стоит.*выезд|депласаре.*designer|cost.*deplasare)/i.test(trimmed)) {
                 response = currentLang === "ro"
-                  ? `Mai jos pentru dvs. am pregătit un răspuns simplu la întrebările dvs., derulați în jos în chat și veți găsi secțiunea "ACȚIUNI RAPIDE", alegeți calculatorul potrivit pentru dvs. și răspundeți la întrebări, dacă printre întrebări nu găsiți un răspuns potrivit pentru dvs., puteți contacta direct designerul la numărul +373 60 599 907 sau prin WhatsApp!`
-                  : `Ниже для вас мы подготовили простой вариант на ответы по вашим вопросам, спуститесь ниже в чате вы найдете раздел "БЫСТРЫЕ ДЕЙСТВИЯ", выбирете подходящую для вас калькулятор и ответьте на вопросы, если в вопросах вы ненайдете подходящего ответа для вас вы можете связаться напрямую с дизайнером по номеру +373 60 599 907 или через WhatsApp!`;
-              } else if (foundProduct && !mode.startsWith("wizard")) {
+                  ? "Deplasarea designerului în Chișinău costă 300 lei.\nLa plasarea comenzii, costul deplasării se deduce integral din valoarea mobilierului."
+                  : "Выезд дизайнера по Кишинёву стоит 300 леев.\nПри оформлении заказа стоимость выезда вычитается из стоимости мебели.";
+              }
+              // === 2. OBJECTION: "too expensive" ===
+              else if (/(дорого|сильно дорог|prea scump|scump|недоступн|дороговато)/i.test(trimmed)) {
+                response = currentLang === "ro"
+                  ? "Putem selecta o soluție mai accesibilă. Ce buget luați în considerare?"
+                  : "Мы можем подобрать более доступное решение. Какой бюджет вы рассматриваете?";
+              }
+              // === 3. OBJECTION: "I'll think about it" ===
+              else if (/(подумаю|подумаем|mai.*gândesc|gândesc|ma gandesc|voi.*gândi)/i.test(trimmed)) {
+                response = currentLang === "ro"
+                  ? "Desigur. Pot salva calculul și vă pot conecta cu designerul mai târziu. Doriți să vă reamintesc prin WhatsApp?"
+                  : "Конечно. Могу сохранить расчёт и связать вас с дизайнером позже. Напомнить через WhatsApp?";
+              }
+              // === 4. "How much is a kitchen" → launch kitchen calculator ===
+              else if (/(сколько.*стоит.*кухн|цена.*кухн|pret.*bucat|preț.*bucat)/i.test(trimmed)) {
+                setCalculator({ size: 0, height: "", style: "", material: "", countertop: "", extras: [], notes: "", type: "" });
+                newMode = "calculator_size";
+                response = currentLang === "ro"
+                  ? "🧮 Calculator bucătărie. Pasul 1: Dimensiunea în metri liniari (ex: 3.5, 4, 5):"
+                  : "🧮 Калькулятор кухни. Шаг 1: Введите размер в погонных метрах (например: 3.5, 4, 5):";
+              }
+              // === 5. Product keyword detection (general mentions) ===
+              else {
+                const productKeywords: Record<string, string> = {
+                  шкаф: "шкаф", dulap: "шкаф", cupe: "шкаф", купе: "шкаф", "шкафы": "шкаф",
+                  кухня: "кухня", bucatarie: "кухня", bucătărie: "кухня", kitchen: "кухня",
+                  гардеробная: "гардеробная", dressing: "гардеробная", "гардеробные": "гардеробная",
+                  "тв-зона": "ТВ-зона", "тв зона": "ТВ-зона", tv: "ТВ-зона", телевизор: "ТВ-зона", televizor: "ТВ-зона",
+                  стена: "стена", perete: "стена", "декоративная стена": "стена", "3d панель": "стена",
+                };
+                let foundProduct = "";
+                for (const [kw, prod] of Object.entries(productKeywords)) {
+                  if (lowerTrimmed.includes(kw)) { foundProduct = prod; break; }
+                }
+
+                if (foundProduct === "шкаф" || foundProduct === "кухня") {
+                  // General mention (not price-specific) → direct to calculator quick actions
+                  response = currentLang === "ro"
+                    ? `Mai jos pentru dvs. am pregătit un răspuns simplu la întrebările dvs., derulați în jos în chat și veți găsi secțiunea "ACȚIUNI RAPIDE", alegeți calculatorul potrivit pentru dvs. și răspundeți la întrebări, dacă printre întrebări nu găsiți un răspuns potrivit pentru dvs., puteți contacta direct designerul la numărul +373 60 599 907 sau prin WhatsApp!`
+                    : `Ниже для вас мы подготовили простой вариант на ответы по вашим вопросам, спуститесь ниже в чате вы найдете раздел "БЫСТРЫЕ ДЕЙСТВИЯ", выбирете подходящую для вас калькулятор и ответьте на вопросы, если в вопросах вы ненайдете подходящего ответа для вас вы можете связаться напрямую с дизайнером по номеру +373 60 599 907 или через WhatsApp!`;
+                } else if (foundProduct && !mode.startsWith("wizard")) {
                 // ENTER WIZARD MODE (other products)
                 const wState = createEmptyWizard();
                 wState.product = foundProduct;
@@ -798,6 +827,7 @@ export default function ChatWidget() {
                   setDialogStep(0);
                 }
               }
+            }
             }
             break;
           }
