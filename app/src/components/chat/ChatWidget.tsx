@@ -325,12 +325,14 @@ export default function ChatWidget() {
           : `Здравствуйте! Я клиент NobilForm AI.\n\n📞 Мой номер: +${data}\n\n💬 История диалога:\n${chatHistory}\n\nПрошу связаться для консультации.`
       );
       openWhatsAppDirect(WHATSAPP_NUMBER, decodeURIComponent(text));
+      setTimeout(() => { window.location.hash = "#/thank-you"; }, 1000);
     } else if (type === "project") {
       const projectText = lastCalcResultRef.current || chatHistory;
       const waMsg = lang === "ro"
         ? `Bună! Am pregătit proiectul la NobilForm AI.\n\n📋 Detalii:\n${projectText}\n\nRog revizuirea și contactarea mea.`
         : `Здравствуйте! Я подготовил проект в NobilForm AI.\n\n📋 Детали:\n${projectText}\n\nПрошу рассмотреть и связаться со мной.`;
       openWhatsAppDirect(WHATSAPP_NUMBER, waMsg);
+      setTimeout(() => { window.location.hash = "#/thank-you"; }, 1000);
     }
   }, [lang, messages]);
 
@@ -343,6 +345,7 @@ export default function ChatWidget() {
         : `Здравствуйте!\n\nЯ подготовил следующий проект через AI-консультанта NobilForm:\n\n${projectText}\n\nЖду обратной связи.`
     );
     window.open(`mailto:${EMAIL_ADDRESS}?subject=${subject}&body=${body}`, "_blank");
+    setTimeout(() => { window.location.hash = "#/thank-you"; }, 1000);
   }, [lang, messages]);
 
   // Extract product from all messages (context memory)
@@ -402,6 +405,7 @@ export default function ChatWidget() {
     // Open WhatsApp NOW — directly from user gesture, not from setTimeout
     if (preWaUrl) {
       window.open(preWaUrl, "_blank", "noopener,noreferrer");
+      setTimeout(() => { window.location.hash = "#/thank-you"; }, 2000);
     }
 
     setTimeout(async () => {
@@ -588,6 +592,7 @@ export default function ChatWidget() {
                 ? `Comandă Nouă — NobilForm AI\n\n• Produs: ${finalState.product}\n• Dimensiuni: ${sizeStr}\n• Culoare: ${finalState.color}\n• Material: ${finalState.material}\n• Uși: ${dt}\n\nContactați clientul urgent!`
                 : `Новая заявка — NobilForm AI\n\n• Изделие: ${finalState.product}\n• Размеры: ${sizeStr}\n• Цвет: ${finalState.color}\n• Материал: ${finalState.material}\n• Двери: ${dt}\n\nСвяжитесь с клиентом срочно!`;
               setTimeout(() => openWhatsAppDirect(WHATSAPP_NUMBER, waMsg), 500);
+              setTimeout(() => { window.location.hash = "#/thank-you"; }, 2000);
             } else {
               response = currentLang === "ro" ? `Alegeți tipul ușilor (butoanele de mai jos):` : `Выберите тип дверей (кнопки ниже):`;
             }
@@ -778,6 +783,7 @@ export default function ChatWidget() {
                 ? `Bună! Cerere vizită designer la domiciliu.\n\n📍 Adresa: ${trimmed}\n📞 Contact: +${phone}\n\nRog confirmarea programării.`
                 : `Здравствуйте! Заявка на выезд дизайнера на дом.\n\n📍 Адрес: ${trimmed}\n📞 Контакт: +${phone}\n\nПрошу подтвердить запись.`;
               openWhatsAppDirect(WHATSAPP_NUMBER, waText);
+              setTimeout(() => { window.location.hash = "#/thank-you"; }, 1000);
               response = currentLang === "ro"
                 ? `✅ Datele trimise designerului prin WhatsApp (+373 60 599 907).\n\nDeschideți WhatsApp pentru a finaliza trimiterea. Designerul vă contactează pentru confirmarea vizitei.`
                 : `✅ Данные отправлены дизайнеру через WhatsApp (+373 60 599 907).\n\nОткройте WhatsApp для завершения отправки. Дизайнер свяжется для подтверждения визита.`;
@@ -1341,6 +1347,7 @@ export default function ChatWidget() {
                         ? `Bună! Sunt interesat de o zonă TV / panouri decorative.\n\nAm văzut pe site NobilForm că acest produs se calculează individual.\n\nRog să mă contactați pentru discutarea detaliilor.\n\nPreferințele mele:\n[lăsați gol sau completați]`
                         : `Здравствуйте! Меня интересует ТВ-зона / декоративные панели.\n\nУвидел на сайте NobilForm, что это изделие рассчитывается индивидуально.\n\nПрошу связаться со мной для обсуждения деталей.\n\nМои предпочтения:\n[оставьте пустым или заполните]`;
                       openWhatsAppDirect(WHATSAPP_NUMBER, waText);
+                      setTimeout(() => { window.location.hash = "#/thank-you"; }, 1000);
                     }}
                     className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105"
                     style={{ background: "rgba(37,211,102,0.08)", color: "#25d366", border: "1px solid rgba(37,211,102,0.15)" }}

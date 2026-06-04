@@ -9,6 +9,7 @@ import SeoClosetsPage from "./pages/SeoClosetsPage";
 import SeoTvZonesPage from "./pages/SeoTvZonesPage";
 import SeoWallsPage from "./pages/SeoWallsPage";
 import SeoBlogPage from "./pages/SeoBlogPage";
+import ThankYouPage from "./pages/ThankYouPage";
 import Navigation from "./sections/Navigation";
 import ChatWidget from "./components/chat/ChatWidget";
 import Preloader from "./components/Preloader";
@@ -39,6 +40,7 @@ function AppContent() {
           <Route path="/shkafy-kupe" element={<SeoClosetsPage />} />
           <Route path="/tv-zony" element={<SeoTvZonesPage />} />
           <Route path="/dekorativnye-steny" element={<SeoWallsPage />} />
+          <Route path="/thank-you" element={<ThankYouPage />} />
         </Routes>
         <ChatWidget />
       </div>
