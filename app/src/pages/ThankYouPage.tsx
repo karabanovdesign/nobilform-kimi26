@@ -28,6 +28,13 @@ export default function ThankYouPage() {
     document.title = c.title;
   }, [c.title]);
 
+  // Google Ads Conversion Tracking — fires once on page load
+  useEffect(() => {
+    window.gtag?.("event", "conversion", {
+      send_to: "AW-18213365373/Mu6xCPK7_bgcEP3M5-xD",
+    });
+  }, []);
+
   return (
     <>
       {/* noindex for search engines */}
