@@ -410,7 +410,120 @@ export default function ChatWidget() {
         let newMode: ChatMode = mode; // preserve current mode by default
         let skipMessage = false;
 
-        switch (mode) {
+        // ===== QUESTION DETECTION DURING CALCULATOR / CLOSET FLOW =====
+        // If user asks a question instead of answering → reply via RAG, keep step
+        const isQuestion = (text: string): boolean => {
+          const lower = text.toLowerCase();
+          if (lower.includes("?")) return true;
+          return /(что|как|какой|какая|какие|почему|зачем|чем|сколько|кто|где|когда|каков|чей|откуда|куда|ce\s|cum\s|care|cât|de ce|cine|unde|când|diferența|care este)/i.test(lower);
+        };
+
+        // ===== STEP CONTEXT: maps calculator/wizard mode to human-readable step description =====
+        const getStepContext = (m: ChatMode): string => {
+          const stepMap: Record<string, { ru: string; ro: string }> = {
+            calculator_size: { ru: "ввода размера кухни", ro: "introducerii dimensiunii bucătăriei" },
+            calculator_height: { ru: "выбора высоты кухни", ro: "alegerii înălțimii bucătăriei" },
+            calculator_style: { ru: "выбора стиля кухни", ro: "alegerii stilului bucătăriei" },
+            calculator_material: { ru: "выбора материала фасадов кухни", ro: "alegerii materialului fațadelor bucătăriei" },
+            calculator_countertop: { ru: "выбора столешницы", ro: "alegerii blatului" },
+            calculator_extras: { ru: "выбора дополнительных опций", ro: "alegerii opțiunilor suplimentare" },
+            calculator_notes: { ru: "добавления комментариев", ro: "adăugării comentariilor" },
+            closet_size: { ru: "ввода размера шкафа", ro: "introducerii dimensiunii dulapului" },
+            closet_height: { ru: "ввода высоты шкафа", ro: "introducerii înălțimii dulapului" },
+            closet_type: { ru: "выбора типа шкафа", ro: "alegerii tipului dulapului" },
+            closet_material: { ru: "выбора материала шкафа", ro: "alegerii materialului dulapului" },
+            closet_color: { ru: "выбора цвета шкафа", ro: "alegerii culorii dulapului" },
+            closet_doors: { ru: "выбора типа дверей шкафа", ro: "alegerii tipului ușilor dulapului" },
+            closet_notes: { ru: "добавления комментариев", ro: "adăugării comentariilor" },
+            wizard_width: { ru: "ввода ширины", ro: "introducerii lățimii" },
+            wizard_height: { ru: "ввода высоты", ro: "introducerii înălțimii" },
+            wizard_color: { ru: "выбора цвета", ro: "alegerii culorii" },
+            wizard_material: { ru: "выбора материала", ro: "alegerii materialului" },
+            wizard_doors: { ru: "выбора типа дверей", ro: "alegerii tipului ușilor" },
+          };
+          const s = stepMap[m];
+          return s ? (currentLang === "ro" ? s.ro : s.ru) : "";
+        };
+
+        const inCalculator = mode.startsWith("calculator_") || mode.startsWith("closet_") || mode.startsWith("wizard_");
+        if (inCalculator && isQuestion(trimmed) && mode !== "wizard_result") {
+          const stepCtx = getStepContext(mode);
+          // Build contextual query with step info
+          const contextualQuery = currentLang === "ro"
+            ? `[Context: utilizatorul este la pasul "${stepCtx}" în calculatorul de mobilier. Răspunde ca un designer de interior experimentat. Fii concis și util.] ${trimmed}`
+            : `[Контекст: пользователь на этапе "${stepCtx}" в калькуляторе мебели. Отвечай как опытный дизайнер интерьера. Будь краток и полезен.] ${trimmed}`;
+          const history = newMessages.slice(-6).map(m => m.content);
+          try {
+            response = await fetchGptReply(currentLang, contextualQuery, history);
+          } catch {
+            response = generateResponse(currentLang, contextualQuery, history);
+          }
+          // ===== SHOW AVAILABLE OPTIONS FOR CURRENT STEP =====
+          // ===== SHOW AVAILABLE OPTIONS WITH STEP CONTEXT =====
+          const stepLabel = getStepContext(mode);
+          const getStepOptions = (m: ChatMode, l: "ru" | "ro"): string => {
+            const bullet = (items: string[]) => items.map(i => `• ${i}`).join("\n");
+            const header = l === "ro"
+              ? `Continuăm calculul.\n\nEtapa actuală: ${stepLabel}.\n\n`
+              : `Продолжим расчёт.\n\nТекущий этап: ${stepLabel}.\n\n`;
+            switch (m) {
+              case "calculator_height": {
+                const opts = l === "ro" ? KITCHEN_HEIGHTS_RO : KITCHEN_HEIGHTS_RU;
+                return header + (l === "ro" ? "Alegeți înălțimea:\n\n" : "Выберите высоту:\n\n") + bullet(opts.map(o => o.label));
+              }
+              case "calculator_style": {
+                const opts = CALC_STYLES;
+                return header + (l === "ro" ? "Alegeți stilul:\n\n" : "Выберите стиль:\n\n") + bullet(opts.map(o => l === "ro" ? o.ro : o.ru));
+              }
+              case "calculator_material": {
+                const opts = CALC_MATERIALS;
+                return header + (l === "ro" ? "Alegeți materialul:\n\n" : "Выберите материал:\n\n") + bullet(opts.map(o => l === "ro" ? o.ro : o.ru));
+              }
+              case "calculator_countertop": {
+                const opts = CALC_COUNTERtops;
+                return header + (l === "ro" ? "Alegeți blatul:\n\n" : "Выберите столешницу:\n\n") + bullet(opts.map(o => l === "ro" ? o.ro : o.ru));
+              }
+              case "calculator_extras": {
+                const opts = CALC_EXTRAS;
+                return header + (l === "ro" ? "Opțiuni suplimentare:\n\n" : "Дополнительные опции:\n\n") + bullet(opts.map(o => l === "ro" ? o.ro : o.ru));
+              }
+              case "closet_type": {
+                const opts = l === "ro" ? CLOSET_TYPES_RO : CLOSET_TYPES_RU;
+                return header + (l === "ro" ? "Alegeți tipul:\n\n" : "Выберите тип:\n\n") + bullet(opts.map(o => o.label));
+              }
+              case "closet_material": {
+                const opts = l === "ro" ? CLOSET_MATERIALS_RO : CLOSET_MATERIALS_RU;
+                return header + (l === "ro" ? "Alegeți materialul:\n\n" : "Выберите материал:\n\n") + bullet(opts.map(o => o.label));
+              }
+              case "closet_color": {
+                const opts = l === "ro" ? CLOSET_COLORS_RO : CLOSET_COLORS_RU;
+                return header + (l === "ro" ? "Alegeți culoarea:\n\n" : "Выберите цвет:\n\n") + bullet(opts.map(o => o.label));
+              }
+              case "closet_doors": {
+                const opts = l === "ro" ? CLOSET_DOORS_RO : CLOSET_DOORS_RU;
+                return header + (l === "ro" ? "Alegeți tipul ușilor:\n\n" : "Выберите тип дверей:\n\n") + bullet(opts.map(o => o.label));
+              }
+              case "wizard_material": {
+                const opts = l === "ro" ? WIZARD_MATERIALS_RO : WIZARD_MATERIALS_RU;
+                return header + (l === "ro" ? "Alegeți materialul:\n\n" : "Выберите материал:\n\n") + bullet(opts.map(o => o.label));
+              }
+              case "wizard_doors": {
+                const opts = l === "ro" ? WIZARD_DOORS_RO : WIZARD_DOORS_RU;
+                return header + (l === "ro" ? "Alegeți tipul ușilor:\n\n" : "Выберите тип дверей:\n\n") + bullet(opts.map(o => o.label));
+              }
+              default:
+                return "";
+            }
+          };
+
+          const stepOptions = getStepOptions(mode, currentLang);
+          if (stepOptions) {
+            response += "\n\n" + stepOptions;
+          }
+
+          newMode = mode; // keep current step
+        } else {
+          switch (mode) {
           // ===== ШКАФ WIZARD (6 steps like kitchen calculator) =====
           case "wizard_width": {
             const m = trimmed.match(/(\d+[.,]?\d*)/);
@@ -561,7 +674,10 @@ export default function ChatWidget() {
             setCalculator(finalCalc);
             const result = calculateKitchen(finalCalc);
             const formatted = formatResult(currentLang, finalCalc, result);
-            response = formatted;
+            const cta = currentLang === "ro"
+              ? "\n\nDoriți un calcul exact ținând cont de încăpere și materiale?\n\nScrieți în WhatsApp: +373 60 599 907\n\nsau folosiți butonul de consultare."
+              : "\n\nХотите точный расчёт с учётом помещения и материалов?\n\nНапишите в WhatsApp: +373 60 599 907\n\nили воспользуйтесь кнопкой консультации.";
+            response = formatted + cta;
             lastCalcResultRef.current = formatted;
             newMode = "calculator_result";
             break;
@@ -669,11 +785,14 @@ export default function ChatWidget() {
           }
 
           default: {
-            // === 1. DESIGNER VISIT COST — before isConsultationRequest! ===
-            if (/(выезд|вызов|приедет|приезжает|deplasare|vizita|vizit)/i.test(trimmed) && /(дизайн|designer|design|мастер|meister)/i.test(trimmed)) {
+            // === 1. DESIGNER VISIT COST — unified response, highest priority ===
+            // Catches: выезд дизайнера, стоимость выезда, вызов дизайнера,
+            //          приедет ли дизайнер, выезд на замер, стоимость замера,
+            //          designer visit, designer visit cost, deplasare designer, vizita designerului
+            if (/(выезд|вызов|приедет|приезжает|deplasare|vizita|vizit|замер|măsur)/i.test(trimmed) && /(дизайн|designer|design|мастер|meister|meister)/i.test(trimmed)) {
               response = currentLang === "ro"
-                ? "Deplasarea designerului în Chișinău costă 300 lei.\nLa plasarea comenzii, costul deplasării se deduce integral din valoarea mobilierului."
-                : "Выезд дизайнера по Кишинёву стоит 300 леев.\nПри оформлении заказа стоимость выезда вычитается из стоимости мебели.";
+                ? "Deplasarea designerului în Chișinău costă 300 lei.\n\nLa plasarea comenzii această sumă se deduce integral din valoarea mobilierului.\n\nPentru programare scrieți în WhatsApp: +373 60 599 907."
+                : "Выезд дизайнера по Кишинёву стоит 300 леев.\n\nПри оформлении заказа эта сумма полностью вычитается из стоимости мебели.\n\nДля согласования времени напишите в WhatsApp: +373 60 599 907.";
             }
             // === 2. OBJECTION: "too expensive" ===
             else if (/(дорого|сильно дорог|prea scump|scump|недоступн|дороговато)/i.test(trimmed)) {
@@ -683,9 +802,16 @@ export default function ChatWidget() {
             }
             // === 3. OBJECTION: "I'll think about it" ===
             else if (/(подумаю|подумаем|mai.*gândesc|gândesc|ma gandesc|voi.*gândi)/i.test(trimmed)) {
-              response = currentLang === "ro"
-                ? "Desigur. Pot salva calculul și vă pot conecta cu designerul mai târziu. Doriți să vă reamintesc prin WhatsApp?"
-                : "Конечно. Могу сохранить расчёт и связать вас с дизайнером позже. Напомнить через WhatsApp?";
+              // If a calculation was completed, acknowledge it
+              if (lastCalcResultRef.current) {
+                response = currentLang === "ro"
+                  ? "Desigur. Calculul dvs. este salvat.\n\nDacă doriți să continuați mai târziu — putem reveni rapid la proiectul dvs.\n\nDoriți să vă reamintesc prin WhatsApp?"
+                  : "Конечно. Ваш расчёт сохранён.\n\nЕсли захотите продолжить позже — мы сможем быстро вернуться к вашему проекту.\n\nНапомнить через WhatsApp?";
+              } else {
+                response = currentLang === "ro"
+                  ? "Desigur. Pot salva calculul și vă pot conecta cu designerul mai târziu. Doriți să vă reamintesc prin WhatsApp?"
+                  : "Конечно. Могу сохранить расчёт и связать вас с дизайнером позже. Напомнить через WhatsApp?";
+              }
             }
             // === 4. "How much is a kitchen" → launch kitchen calculator ===
             else if (/(сколько.*стоит.*кухн|цена.*кухн|pret.*bucat|preț.*bucat)/i.test(trimmed)) {
@@ -832,6 +958,7 @@ export default function ChatWidget() {
             break;
           }
         }
+        } // ← close else { (calculator question check)
 
         setMode(newMode);
         if (!skipMessage) {
