@@ -669,8 +669,34 @@ export default function ChatWidget() {
           }
 
           default: {
+            // === 1. DESIGNER VISIT COST — before isConsultationRequest! ===
+            if (/(выезд|вызов|приедет|приезжает|deplasare|vizita|vizit)/i.test(trimmed) && /(дизайн|designer|design|мастер|meister)/i.test(trimmed)) {
+              response = currentLang === "ro"
+                ? "Deplasarea designerului în Chișinău costă 300 lei.\nLa plasarea comenzii, costul deplasării se deduce integral din valoarea mobilierului."
+                : "Выезд дизайнера по Кишинёву стоит 300 леев.\nПри оформлении заказа стоимость выезда вычитается из стоимости мебели.";
+            }
+            // === 2. OBJECTION: "too expensive" ===
+            else if (/(дорого|сильно дорог|prea scump|scump|недоступн|дороговато)/i.test(trimmed)) {
+              response = currentLang === "ro"
+                ? "Putem selecta o soluție mai accesibilă. Ce buget luați în considerare?"
+                : "Мы можем подобрать более доступное решение. Какой бюджет вы рассматриваете?";
+            }
+            // === 3. OBJECTION: "I'll think about it" ===
+            else if (/(подумаю|подумаем|mai.*gândesc|gândesc|ma gandesc|voi.*gândi)/i.test(trimmed)) {
+              response = currentLang === "ro"
+                ? "Desigur. Pot salva calculul și vă pot conecta cu designerul mai târziu. Doriți să vă reamintesc prin WhatsApp?"
+                : "Конечно. Могу сохранить расчёт и связать вас с дизайнером позже. Напомнить через WhatsApp?";
+            }
+            // === 4. "How much is a kitchen" → launch kitchen calculator ===
+            else if (/(сколько.*стоит.*кухн|цена.*кухн|pret.*bucat|preț.*bucat)/i.test(trimmed)) {
+              setCalculator({ size: 0, height: "", style: "", material: "", countertop: "", extras: [], notes: "", type: "" });
+              newMode = "calculator_size";
+              response = currentLang === "ro"
+                ? "🧮 Calculator bucătărie. Pasul 1: Dimensiunea în metri liniari (ex: 3.5, 4, 5):"
+                : "🧮 Калькулятор кухни. Шаг 1: Введите размер в погонных метрах (например: 3.5, 4, 5):";
+            }
             // --- ТВ-ЗОНА & ДЕКОРАТИВНЫЕ ПАНЕЛИ (individual project) ---
-            if (/(тв.*зон|tv.*zon|телевизор|televizor|media|медиа|декоративн|panou|perete decorativ|3d.*панел|изголовье|tăblie)/i.test(trimmed)) {
+            else if (/(тв.*зон|tv.*zon|телевизор|televizor|media|медиа|декоративн|panou|perete decorativ|3d.*панел|изголовье|tăblie)/i.test(trimmed)) {
               response = currentLang === "ro"
                 ? `Acest produs se calculează ca proiect individual și complex, care necesită atenția maximă a designerului!\n\nDescrieți mai jos preferințele dvs. pentru produs:\n• lățimea și înălțimea\n• ce caracter decorativ trebuie să aibă acest model\n• locul amplasării\n• ce elemente trebuie să fie (consolă suspendată pentru TV, noptieră, masă de lucru/birou)\n\nSau atașați o imagine în WhatsApp cu descrierea. De asemenea, puteți avea încredere în ideea designerului — vă vor ajuta cu alegerea!`
                 : `Данное изделие рассчитывается как индивидуальный и сложный проект, который требует к себе максимального внимания дизайнера!\n\nОпишите ниже ваши предпочтения к изделию:\n• ширина и высота\n• какой декоративный характер должна нести эта модель\n• её место расположения\n• какие элементы должны быть (подвесная консоль для ТВ, прикроватная тумба, стол рабочий/письменный)\n\nИли прикрепите изображение в WhatsApp с описанием. Также вы можете довериться идее самого дизайнера — в любом случае вам помогут с выбором!`;
@@ -758,34 +784,8 @@ export default function ChatWidget() {
             else {
               const lowerTrimmed = trimmed.toLowerCase();
 
-              // === 1. DESIGNER VISIT COST ===
-              if (/(выезд.*дизайн|стоит.*выезд|депласаре.*designer|cost.*deplasare)/i.test(trimmed)) {
-                response = currentLang === "ro"
-                  ? "Deplasarea designerului în Chișinău costă 300 lei.\nLa plasarea comenzii, costul deplasării se deduce integral din valoarea mobilierului."
-                  : "Выезд дизайнера по Кишинёву стоит 300 леев.\nПри оформлении заказа стоимость выезда вычитается из стоимости мебели.";
-              }
-              // === 2. OBJECTION: "too expensive" ===
-              else if (/(дорого|сильно дорог|prea scump|scump|недоступн|дороговато)/i.test(trimmed)) {
-                response = currentLang === "ro"
-                  ? "Putem selecta o soluție mai accesibilă. Ce buget luați în considerare?"
-                  : "Мы можем подобрать более доступное решение. Какой бюджет вы рассматриваете?";
-              }
-              // === 3. OBJECTION: "I'll think about it" ===
-              else if (/(подумаю|подумаем|mai.*gândesc|gândesc|ma gandesc|voi.*gândi)/i.test(trimmed)) {
-                response = currentLang === "ro"
-                  ? "Desigur. Pot salva calculul și vă pot conecta cu designerul mai târziu. Doriți să vă reamintesc prin WhatsApp?"
-                  : "Конечно. Могу сохранить расчёт и связать вас с дизайнером позже. Напомнить через WhatsApp?";
-              }
-              // === 4. "How much is a kitchen" → launch kitchen calculator ===
-              else if (/(сколько.*стоит.*кухн|цена.*кухн|pret.*bucat|preț.*bucat)/i.test(trimmed)) {
-                setCalculator({ size: 0, height: "", style: "", material: "", countertop: "", extras: [], notes: "", type: "" });
-                newMode = "calculator_size";
-                response = currentLang === "ro"
-                  ? "🧮 Calculator bucătărie. Pasul 1: Dimensiunea în metri liniari (ex: 3.5, 4, 5):"
-                  : "🧮 Калькулятор кухни. Шаг 1: Введите размер в погонных метрах (например: 3.5, 4, 5):";
-              }
-              // === 5. Product keyword detection (general mentions) ===
-              else {
+              // Product keyword detection (general mentions)
+              {
                 const productKeywords: Record<string, string> = {
                   шкаф: "шкаф", dulap: "шкаф", cupe: "шкаф", купе: "шкаф", "шкафы": "шкаф",
                   кухня: "кухня", bucatarie: "кухня", bucătărie: "кухня", kitchen: "кухня",
