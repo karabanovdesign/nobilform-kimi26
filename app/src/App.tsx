@@ -51,10 +51,10 @@ function AppContent() {
 export default function App() {
   const location = useLocation();
   useEffect(() => {
-    if (!location.hash || location.hash === "#/") {
+    if (location.pathname === "/" || location.pathname === "") {
       window.location.hash = "#/ru";
     }
-  }, [location.hash]);
+  }, [location.pathname]);
 
   return <AppContent />;
 }
