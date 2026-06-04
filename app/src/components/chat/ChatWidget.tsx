@@ -601,17 +601,33 @@ export default function ChatWidget() {
           }
 
           case "awaiting_phone": {
-            const digits = extractPhone(trimmed);
-            if (digits.length >= 5) {
-              // WhatsApp already opened before setTimeout (preserves user gesture)
-              response = currentLang === "ro"
-                ? `✅ Datele trimise designerului prin WhatsApp (+373 60 599 907).\n\nDeschideți WhatsApp pentru a finaliza trimiterea. Designerul vă contactează în cel mult o oră.\n\nPână atunci — alte întrebări?`
-                : `✅ Данные отправлены дизайнеру через WhatsApp (+373 60 599 907).\n\nОткройте WhatsApp для завершения отправки. Дизайнер свяжется в течение часа.\n\nА пока — другие вопросы?`;
-            } else {
-              response = currentLang === "ro"
-                ? "Vă rog introduceți un număr valid (ex: 060123456)"
-                : "Пожалуйста, введите корректный номер (например: 060123456)";
-              newMode = "awaiting_phone";
+            // 1. Check if it's a question → answer via GPT/RAG, keep awaiting_phone
+            if (isQuestion(trimmed)) {
+              const history = newMessages.slice(-6).map(m => m.content);
+              try {
+                response = await fetchGptReply(currentLang, trimmed, history);
+              } catch {
+                response = generateResponse(currentLang, trimmed, history);
+              }
+              const phonePrompt = currentLang === "ro"
+                ? "\n\nDacă doriți, puteți lăsa numărul de telefon pentru contact."
+                : "\n\nЕсли хотите, можете оставить номер телефона для связи.";
+              response += phonePrompt;
+              newMode = "awaiting_phone"; // stay in awaiting_phone
+            }
+            // 2. Check if it's a phone number → process as before
+            else {
+              const digits = extractPhone(trimmed);
+              if (digits.length >= 5) {
+                response = currentLang === "ro"
+                  ? `✅ Datele trimise designerului prin WhatsApp (+373 60 599 907).\n\nDeschideți WhatsApp pentru a finaliza trimiterea. Designerul vă contactează în cel mult o oră.\n\nPână atunci — alte întrebări?`
+                  : `✅ Данные отправлены дизайнеру через WhatsApp (+373 60 599 907).\n\nОткройте WhatsApp для завершения отправки. Дизайнер свяжется в течение часа.\n\nА пока — другие вопросы?`;
+              } else {
+                response = currentLang === "ro"
+                  ? "Vă rog introduceți un număr valid (ex: 060123456)"
+                  : "Пожалуйста, введите корректный номер (например: 060123456)";
+                newMode = "awaiting_phone";
+              }
             }
             break;
           }
