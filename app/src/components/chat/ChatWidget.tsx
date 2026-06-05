@@ -137,6 +137,7 @@ const KITCHEN_HEIGHTS_RO = [
 export default function ChatWidget() {
   const { lang } = useLang();
   const [isOpen, setIsOpen] = useState(false);
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [mode, setMode] = useState<ChatMode>("chat");
   const [messages, setMessages] = useState<Message[]>(() => loadMessages(lang));
   const [input, setInput] = useState("");
@@ -147,6 +148,29 @@ export default function ChatWidget() {
   const [calculator, setCalculator] = useState<CalculatorState>({
     size: 0, height: "", style: "", material: "", countertop: "", extras: [], notes: "", type: "",
   });
+
+  // ===== TOOLTIP: show after 5s, hide after 15s, pause on hover =====
+  const tooltipHoverRef = useRef(false);
+  const tooltipHideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const startTooltipHideTimer = () => {
+    tooltipHideTimerRef.current = setTimeout(() => {
+      if (!tooltipHoverRef.current) {
+        setIsTooltipVisible(false);
+        sessionStorage.setItem("nobilform_tooltip_shown", "1");
+      }
+    }, 15000);
+  };
+  useEffect(() => {
+    if (sessionStorage.getItem("nobilform_tooltip_shown")) return;
+    if (isOpen) return;
+
+    const showTimer = setTimeout(() => {
+      setIsTooltipVisible(true);
+      startTooltipHideTimer();
+    }, 5000);
+
+    return () => clearTimeout(showTimer);
+  }, [isOpen]);
 
   // ===== CLOSET CALCULATOR CONSTANTS =====
   const CLOSET_TYPES_RU = [
@@ -1058,6 +1082,75 @@ export default function ChatWidget() {
 
   return (
     <>
+      {/* Tooltip — appears 5s after page load, hides after 15s */}
+      {isTooltipVisible && !isOpen && (
+        <div
+          className="fixed bottom-24 right-5 z-50 max-w-[260px] cursor-pointer transition-all duration-500 ease-out"
+          style={{
+            animation: "slideInRight 0.5s ease-out",
+            background: "rgba(14,14,14,0.95)",
+            border: "1px solid rgba(214,193,163,0.25)",
+            borderRadius: "12px",
+            padding: "14px 18px",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(214,193,163,0.08)",
+            backdropFilter: "blur(12px)",
+          }}
+          onClick={() => {
+            setIsTooltipVisible(false);
+            sessionStorage.setItem("nobilform_tooltip_shown", "1");
+            setIsOpen(true);
+          }}
+          onMouseEnter={() => {
+            tooltipHoverRef.current = true;
+            if (tooltipHideTimerRef.current) clearTimeout(tooltipHideTimerRef.current);
+          }}
+          onMouseLeave={() => {
+            tooltipHoverRef.current = false;
+            startTooltipHideTimer();
+          }}
+        >
+          {/* Arrow pointing to chat button */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-6px",
+              right: "24px",
+              width: "12px",
+              height: "12px",
+              background: "rgba(14,14,14,0.95)",
+              borderRight: "1px solid rgba(214,193,163,0.25)",
+              borderBottom: "1px solid rgba(214,193,163,0.25)",
+              transform: "rotate(45deg)",
+            }}
+          />
+          <p
+            className="text-sm leading-relaxed"
+            style={{
+              color: "#f5f3ef",
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 300,
+            }}
+          >
+            {currentLang === "ro"
+              ? "Bună! Doriți un calcul gratuit al bucătăriei?"
+              : "Здравствуйте! Хотите узнать стоимость кухни?"}
+          </p>
+          <p
+            className="text-xs mt-2"
+            style={{ color: "rgba(214,193,163,0.5)", letterSpacing: "0.5px" }}
+          >
+            {currentLang === "ro" ? "Apăsați pentru a discuta" : "Нажмите, чтобы начать чат"}
+          </p>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes slideInRight {
+          from { opacity: 0; transform: translateX(20px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+      `}</style>
+
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
