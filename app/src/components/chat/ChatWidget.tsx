@@ -159,11 +159,12 @@ export default function ChatWidget() {
     tooltipHideTimerRef.current = setTimeout(() => {
       if (!tooltipHoverRef.current) {
         setIsTooltipVisible(false);
-        
+        sessionStorage.setItem("nobilform_tooltip_shown", "1");
       }
     }, 15000);
   };
   useEffect(() => {
+    if (sessionStorage.getItem("nobilform_tooltip_shown")) return;
     if (isOpen) return;
 
     const showTimer = setTimeout(() => {
@@ -1108,7 +1109,7 @@ export default function ChatWidget() {
           }}
           onClick={() => {
             setIsTooltipVisible(false);
-            
+            sessionStorage.setItem("nobilform_tooltip_shown", "1");
             setIsOpen(true);
           }}
           onMouseEnter={() => {
@@ -1143,8 +1144,8 @@ export default function ChatWidget() {
             }}
           >
             {currentLang === "ro"
-              ? "Ați găsit o soluție interesantă pentru dvs.?"
-              : "Нашли интересное решение для себя?"}
+              ? "Bună! Doriți un calcul gratuit al bucătăriei?"
+              : "Здравствуйте! Хотите узнать стоимость кухни?"}
           </p>
           <p
             className="text-xs mt-2"
