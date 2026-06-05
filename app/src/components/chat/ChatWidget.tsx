@@ -29,10 +29,10 @@ import {
 function openWhatsAppDirect(phone: string, text: string) {
   const encodedText = encodeURIComponent(text);
   const url = `https://wa.me/${phone}?text=${encodedText}`;
-  // 1. Redirect current tab to /thank-you FIRST (guaranteed conversion tracking)
+  // Set thank-you hash so it shows when user returns from WhatsApp
   window.location.hash = "#/thank-you";
-  // 2. Open WhatsApp in a new tab
-  window.open(url, "_blank", "noopener,noreferrer");
+  // Open WhatsApp in current tab — no popup, works in Safari
+  window.location.href = url;
 }
 
 // ===== CONSTANTS =====
@@ -427,7 +427,7 @@ export default function ChatWidget() {
     // Open WhatsApp NOW — directly from user gesture, not from setTimeout
     if (preWaUrl) {
       window.location.hash = "#/thank-you";
-      window.open(preWaUrl, "_blank", "noopener,noreferrer");
+      window.location.href = preWaUrl;
     }
 
     setTimeout(async () => {
