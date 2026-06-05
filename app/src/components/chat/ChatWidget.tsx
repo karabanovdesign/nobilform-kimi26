@@ -28,14 +28,8 @@ import {
 // DO NOT wrap in setTimeout or async callback
 function openWhatsAppDirect(phone: string, text: string) {
   const encodedText = encodeURIComponent(text);
-  // Set thank-you hash so it shows when user returns
-  window.location.hash = "#/thank-you";
-  // Try native WhatsApp app first (skips Web WhatsApp intermediate page)
+  sessionStorage.setItem("nobilform_show_thankyou_after_return", "1");
   window.location.href = `whatsapp://send?phone=${phone}&text=${encodedText}`;
-  // Fallback: if app not installed, go to wa.me after short delay
-  setTimeout(() => {
-    window.location.href = `https://wa.me/${phone}?text=${encodedText}`;
-  }, 1500);
 }
 
 // ===== CONSTANTS =====
@@ -429,17 +423,12 @@ export default function ChatWidget() {
 
     // Open WhatsApp NOW — directly from user gesture, not from setTimeout
     if (preWaUrl) {
-      window.location.hash = "#/thank-you";
-      // Try native WhatsApp app first (skips Web WhatsApp intermediate page)
+      sessionStorage.setItem("nobilform_show_thankyou_after_return", "1");
       const phoneMatch = preWaUrl.match(/phone=(\d+)/);
       const textMatch = preWaUrl.match(/text=([^&]+)/);
       const waPhone = phoneMatch ? phoneMatch[1] : WHATSAPP_NUMBER;
       const waText = textMatch ? textMatch[1] : "";
       window.location.href = `whatsapp://send?phone=${waPhone}&text=${waText}`;
-      // Fallback to wa.me if app not installed
-      setTimeout(() => {
-        window.location.href = preWaUrl;
-      }, 1500);
     }
 
     setTimeout(async () => {
