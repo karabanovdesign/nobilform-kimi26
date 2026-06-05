@@ -28,11 +28,14 @@ import {
 // DO NOT wrap in setTimeout or async callback
 function openWhatsAppDirect(phone: string, text: string) {
   const encodedText = encodeURIComponent(text);
-  const url = `https://wa.me/${phone}?text=${encodedText}`;
-  // Set thank-you hash so it shows when user returns from WhatsApp
+  // Set thank-you hash so it shows when user returns
   window.location.hash = "#/thank-you";
-  // Open WhatsApp in current tab — no popup, works in Safari
-  window.location.href = url;
+  // Try native WhatsApp app first (skips Web WhatsApp intermediate page)
+  window.location.href = `whatsapp://send?phone=${phone}&text=${encodedText}`;
+  // Fallback: if app not installed, go to wa.me after short delay
+  setTimeout(() => {
+    window.location.href = `https://wa.me/${phone}?text=${encodedText}`;
+  }, 1500);
 }
 
 // ===== CONSTANTS =====
@@ -156,12 +159,11 @@ export default function ChatWidget() {
     tooltipHideTimerRef.current = setTimeout(() => {
       if (!tooltipHoverRef.current) {
         setIsTooltipVisible(false);
-        sessionStorage.setItem("nobilform_tooltip_shown", "1");
+        
       }
     }, 15000);
   };
   useEffect(() => {
-    if (sessionStorage.getItem("nobilform_tooltip_shown")) return;
     if (isOpen) return;
 
     const showTimer = setTimeout(() => {
@@ -427,7 +429,16 @@ export default function ChatWidget() {
     // Open WhatsApp NOW — directly from user gesture, not from setTimeout
     if (preWaUrl) {
       window.location.hash = "#/thank-you";
-      window.location.href = preWaUrl;
+      // Try native WhatsApp app first (skips Web WhatsApp intermediate page)
+      const phoneMatch = preWaUrl.match(/phone=(\d+)/);
+      const textMatch = preWaUrl.match(/text=([^&]+)/);
+      const waPhone = phoneMatch ? phoneMatch[1] : WHATSAPP_NUMBER;
+      const waText = textMatch ? textMatch[1] : "";
+      window.location.href = `whatsapp://send?phone=${waPhone}&text=${waText}`;
+      // Fallback to wa.me if app not installed
+      setTimeout(() => {
+        window.location.href = preWaUrl;
+      }, 1500);
     }
 
     setTimeout(async () => {
@@ -1097,7 +1108,7 @@ export default function ChatWidget() {
           }}
           onClick={() => {
             setIsTooltipVisible(false);
-            sessionStorage.setItem("nobilform_tooltip_shown", "1");
+            
             setIsOpen(true);
           }}
           onMouseEnter={() => {
@@ -1132,8 +1143,8 @@ export default function ChatWidget() {
             }}
           >
             {currentLang === "ro"
-              ? "Bună! Doriți un calcul gratuit al bucătăriei?"
-              : "Здравствуйте! Хотите узнать стоимость кухни?"}
+              ? "Ați găsit o soluție interesantă pentru dvs.?"
+              : "Нашли интересное решение для себя?"}
           </p>
           <p
             className="text-xs mt-2"
