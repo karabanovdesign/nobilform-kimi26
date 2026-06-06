@@ -94,7 +94,8 @@ export default function Home() {
       <GallerySection id="walls" label={t(lang, "walls.label")} title={t(lang, "walls.title")} description={t(lang, "walls.desc")} items={WALLS} onItemClick={openLightbox} lang={lang} />
 
       <Advantages />
-      <Calculator />
+      {/* Calculator temporarily hidden for AI lead test */}
+      {/* <Calculator /> */}
       <Footer />
 
       <Lightbox
