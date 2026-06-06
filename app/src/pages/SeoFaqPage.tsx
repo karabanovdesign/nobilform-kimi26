@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { HelmetSeo } from "@/components/HelmetSeo";
-import { openWhatsAppDirect } from "@/lib/whatsapp";
+
+const WHATSAPP_NUMBER = "37360599907";
+function openWhatsAppDirect(text: string) {
+  const encodedText = encodeURIComponent(text);
+  sessionStorage.setItem("nobilform_show_thankyou_after_return", "1");
+  window.location.href = `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`;
+}
 
 interface FAQItem {
   question: string;
