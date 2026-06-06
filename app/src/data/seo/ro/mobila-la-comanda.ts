@@ -4,13 +4,13 @@ const data: SeoArticleData = {
   lang: "ro",
   slug: "mobila-la-comanda",
   title: "Mobilă la comandă Chișinău | NobilForm — premium, design 2026",
-  description: "Mobilă premium la comandă în Chișinău. Bucătării, dulapuri, dressinguri, zone TV. Proiectare 3D, AI-consultant. Condițiile de service în garanție se determină individual și se fixează în contract în funcție de materialele, componentele și configurația produsului selectate..",
+  description: "Mobilă premium la comandă în Chișinău. Bucătării, dulapuri, dressinguri Furnital, zone TV. Proiectare 3D, AI-consultant. Materiale EGGER, AGT, Cleaf. De la 400 €/m.",
   h1: "Mobilă la comandă în Chișinău",
   intro: `NobilForm by KVDesign — companie de mobilă tehnologică de nouă generație din Chișinău. Creăm mobilă premium la comandă: bucătării, dulapuri, dressinguri, zone TV, pereți decorativi, mobilă pentru baie.
 
 Diferența noastră — integrarea tehnologiilor avansate în fiecare proiect. AI-consultantul calculează costul în 2 minute. Vizualizarea 3D vă permite să vedeți mobilă în interiorul dvs. înainte de producție. Automatizarea fabricației pe echipament german garantează precizie de milimetru.
 
-Peste 500 de proiecte realizate în Moldova. Condițiile de service în garanție se determină individual și se fixează în contract în funcție de materialele, componentele și configurația produsului selectate.`,
+Proiecte realizate în întreaga Moldovă. Condițiile de service în garanție se determină individual și se fixează în contract.`,
   sections: [
     {
       h2: "De ce mobilă la comandă",
@@ -18,7 +18,7 @@ Peste 500 de proiecte realizate în Moldova. Condițiile de service în garanți
     },
     {
       h2: "Procesul de lucru cu NobilForm",
-      text: `**1. Consultație** (gratuit, 30 min)\nDiscutăm ideile, arătăm mostrele, calculăm prețul orientativ.\n\n**2. Măsurători** (300 lei, se scade la comandă)\nScanare 3D, măsurători profesionale.\n\n**3. Proiect 3D** (2–3 zile)\nVizualizare fotorealistă. Până la 3 modificări gratuite.\n\n**4. Contract și avans**\nDeviz transparent fără costuri ascunse. Avans 50%.\n\n**5. Producție** (20–45 zile)\nFabricație pe echipament german. Rapoarte foto săptămânale.\n\n**6. Livrare și montaj** (1–2 zile)\nLivrare atentă, montaj profesional, curățenie.`,
+      text: `**1. Consultație** (gratuit, 30 min)\nDiscutăm ideile, arătăm mostrele, calculăm prețul orientativ.\n\n**2. Măsurători** (300 lei, se scade la comandă)\nScanare 3D, măsurători profesionale.\n\n**3. Proiect 3D** (2–3 zile)\nVizualizare fotorealistă. Până la 3 modificări gratuite.\n\n**4. Contract și avans**\nDeviz transparent fără costuri ascunse. 65% avans la semnarea contractului, 35% cu 3 zile înainte de montaj.\n\n**5. Producție** (20–45 zile)\nFabricație pe echipament german. Rapoarte foto săptămânale.\n\n**6. Livrare și montaj** (1–2 zile)\nLivrare atentă, montaj profesional, curățenie.`,
     },
     {
       h2: "AI-consultant NobilForm",
@@ -30,7 +30,7 @@ Peste 500 de proiecte realizate în Moldova. Condițiile de service în garanți
     },
   ],
   advantages: [
-    "Peste 500 de proiecte în Moldova",
+    "Proiecte în toată Moldova",
     "Fabricație proprie în Chișinău",
     "Echipament german Felder, Homag",
     "AI-consultant pentru calcul online",
@@ -39,10 +39,10 @@ Peste 500 de proiecte realizate în Moldova. Condițiile de service în garanți
   ],
   aiBlock: `Consultantul AI NobilForm vă ajută să calculați costul oricărui tip de mobilă: bucătărie, dulap, dressing, zonă TV. Răspundeți la întrebări — primiți prețul orientativ în 2 minute.`,
   portfolioImages: [
-    { src: "/images/horizontal/1.jpg", alt: "Mobilă NobilForm bucătărie dulap" },
-    { src: "/images/horizontal/2.jpg", alt: "Mobilă NobilForm dressing" },
-    { src: "/images/horizontal/4.jpg", alt: "Mobilă NobilForm zonă TV" },
-    { src: "/images/vertical/1.jpg", alt: "Mobilă NobilForm interior" },
+    { src: "/images/horizontal/01_minimalist_kitchen.jpg", alt: "Mobilă NobilForm bucătărie" },
+    { src: "/images/horizontal/05_wooden_facades.jpg", alt: "Mobilă NobilForm dressing" },
+    { src: "/images/horizontal/04_light_premium.jpg", alt: "Mobilă NobilForm zonă TV" },
+    { src: "/images/vertical/01_minimalist_kitchen.jpg", alt: "Mobilă NobilForm interior" },
   ],
   faq: [
     { q: "Cât costă mobila la comandă?", a: "Bucătării — de la 650 €/m, dulapuri — de la 400 €/m, dressinguri — de la 600 €/m, zone TV — de la 500 €/m. Preț exact după măsurători și proiect 3D." },
