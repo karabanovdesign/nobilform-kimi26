@@ -4,17 +4,17 @@ const data: SeoArticleData = {
   lang: "ro",
   slug: "mobila-la-comanda",
   title: "Mobilă la comandă Chișinău | NobilForm — premium, design 2026",
-  description: "Mobilă premium la comandă în Chișinău. Bucătării, dulapuri, dressinguri, zone TV. Proiectare 3D, AI-consultant. Garanție 3 ani.",
+  description: "Mobilă premium la comandă în Chișinău. Bucătării, dulapuri, dressinguri, zone TV. Proiectare 3D, AI-consultant. Condițiile de service în garanție se determină individual și se fixează în contract în funcție de materialele, componentele și configurația produsului selectate..",
   h1: "Mobilă la comandă în Chișinău",
   intro: `NobilForm by KVDesign — companie de mobilă tehnologică de nouă generație din Chișinău. Creăm mobilă premium la comandă: bucătării, dulapuri, dressinguri, zone TV, pereți decorativi, mobilă pentru baie.
 
 Diferența noastră — integrarea tehnologiilor avansate în fiecare proiect. AI-consultantul calculează costul în 2 minute. Vizualizarea 3D vă permite să vedeți mobilă în interiorul dvs. înainte de producție. Automatizarea fabricației pe echipament german garantează precizie de milimetru.
 
-Peste 500 de proiecte realizate în Moldova. Garanție 3 ani pentru mobilă, 10 ani pentru feronerie.`,
+Peste 500 de proiecte realizate în Moldova. Condițiile de service în garanție se determină individual și se fixează în contract în funcție de materialele, componentele și configurația produsului selectate.`,
   sections: [
     {
       h2: "De ce mobilă la comandă",
-      text: `Mobilă la comandă vs mobilă gata:\n\n— **Dimensiuni individuale**: pentru orice planimetrie, inclusiv pereți neuniformi\n— **Orice materiale**: de la PAL EGGER până la Fenix NTM italian\n— **Stil unic**: bucătărie, dulapuri, zona TV într-un singur design\n— **Tehnică încorporată**: frigider, cuptor, mașină de spălat vase în spatele fațadelor\n— **Soluții unice**: insulă, bar, cămară\n— **Calitate**: vopsire în straturi multiple, frezare, intarsie\n\nMobila gata nu oferă aceste posibilități. Mobila la comandă — investiție în confortul și estetica casei dvs.`,
+      text: `Mobilă la comandă vs mobilă gata:\n\n— **Dimensiuni individuale**: pentru orice planimetrie, inclusiv pereți neuniformi\n— **Orice materiale**: de la PAL EGGER până la AGT și Cleaf premium\n— **Stil unic**: bucătărie, dulapuri, zona TV într-un singur design\n— **Tehnică încorporată**: frigider, cuptor, mașină de spălat vase în spatele fațadelor\n— **Soluții unice**: insulă, bar, cămară\n— **Calitate**: vopsire în straturi multiple, frezare, intarsie\n\nMobila gata nu oferă aceste posibilități. Mobila la comandă — investiție în confortul și estetica casei dvs.`,
     },
     {
       h2: "Procesul de lucru cu NobilForm",
@@ -26,7 +26,7 @@ Peste 500 de proiecte realizate în Moldova. Garanție 3 ani pentru mobilă, 10 
     },
     {
       h2: "Garanție și service",
-      text: `NobilForm oferă:\n\n— **Garanție 3 ani** pentru mobilă (fațade, corpuri, blaturi)\n— **Garanție 10 ani** pentru feroneria Blum\n— **Service gratuit** în perioada de garanție\n— **Service post-garanție** — înlocuire feronerie, reglare uși\n— **Garanție extinsă** până la 5 ani — opțiune suplimentară\n\nSuntem încrezători în calitatea mobilei noastre și sprijinim clienții pe toată durata de exploatare.`,
+      text: `NobilForm oferă:\n\n— **Condițiile de service în garanție se determină individual și se fixează în contract în funcție de materialele, componentele și configurația produsului selectate.** pentru mobilă (fațade, corpuri, blaturi)\n— **Condițiile de service în garanție se determină individual și se fixează în contract în funcție de materialele, componentele și configurația produsului selectate.** pentru feroneria Blum\n— **Service gratuit** în perioada de garanție\n— **Service post-garanție** — înlocuire feronerie, reglare uși\n— **Garanție extinsă** până la 5 ani — opțiune suplimentară\n\nSuntem încrezători în calitatea mobilei noastre și sprijinim clienții pe toată durata de exploatare.`,
     },
   ],
   advantages: [
@@ -35,7 +35,7 @@ Peste 500 de proiecte realizate în Moldova. Garanție 3 ani pentru mobilă, 10 
     "Echipament german Felder, Homag",
     "AI-consultant pentru calcul online",
     "Vizualizare 3D gratuită",
-    "Garanție 3 ani, service 10 ani",
+    "Condițiile de service în garanție se determină individual și se fixează în contract în funcție de materialele, componentele și configurația produsului selectate.",
   ],
   aiBlock: `Consultantul AI NobilForm vă ajută să calculați costul oricărui tip de mobilă: bucătărie, dulap, dressing, zonă TV. Răspundeți la întrebări — primiți prețul orientativ în 2 minute.`,
   portfolioImages: [

@@ -18,7 +18,6 @@ import kuhniBezRuchek from "./data/seo/ru/kuhni-bez-ruchek";
 import kuhniMdf from "./data/seo/ru/kuhni-mdf";
 import kuhniAgt from "./data/seo/ru/kuhni-agt";
 import kuhniEgger from "./data/seo/ru/kuhni-egger";
-import kuhniFenix from "./data/seo/ru/kuhni-fenix";
 import vstroennyeShkafy from "./data/seo/ru/vstroennye-shkafy";
 import mebelNaZakaz from "./data/seo/ru/mebel-na-zakaz";
 import stoimostKuhni from "./data/seo/ru/stoimost-kuhni";
@@ -65,7 +64,6 @@ function AppContent() {
           <Route path="/kuhni-mdf" element={<SeoArticlePage data={kuhniMdf} />} />
           <Route path="/kuhni-agt" element={<SeoArticlePage data={kuhniAgt} />} />
           <Route path="/kuhni-egger" element={<SeoArticlePage data={kuhniEgger} />} />
-          <Route path="/kuhni-fenix" element={<SeoArticlePage data={kuhniFenix} />} />
           <Route path="/vstroennye-shkafy" element={<SeoArticlePage data={vstroennyeShkafy} />} />
           <Route path="/mebel-na-zakaz" element={<SeoArticlePage data={mebelNaZakaz} />} />
           <Route path="/stoimost-kuhni" element={<SeoArticlePage data={stoimostKuhni} />} />
