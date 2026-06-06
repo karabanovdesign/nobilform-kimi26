@@ -54,7 +54,7 @@ export default function App() {
     // Check if user returned from WhatsApp → redirect to thank-you
     if (sessionStorage.getItem("nobilform_show_thankyou_after_return")) {
       sessionStorage.removeItem("nobilform_show_thankyou_after_return");
-      window.location.hash = "#/thank-you";
+      window.location.href = "/#/thank-you";
       return;
     }
     if (location.pathname === "/" || location.pathname === "") {
