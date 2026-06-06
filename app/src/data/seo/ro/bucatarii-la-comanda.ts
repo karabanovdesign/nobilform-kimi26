@@ -8,7 +8,7 @@ const data: SeoArticleData = {
  h1: "Bucătării la comandă în Chișinău",
  intro: `NobilForm by KVDesign creează bucătării premium la comandă în Chișinău și întreaga Moldovă. Fiecare bucătărie este proiectată individual — de la primul schiță până la montajul final.
 
-Lucrăm cu materiale certificate: **EGGER PAL** (Austria) pentru corpuri, **AGT MDF** (Turcia), **MDF vopsit mat/lucios**, **Cleaf** (Italia) pentru fațade. Sute de decoruri disponibile.
+Lucrăm cu materiale de calitate: **EGGER PAL** (Austria) pentru corpuri, **AGT MDF** (Turcia), **MDF vopsit mat/lucios**, **Cleaf** (Italia) pentru fațade. Sute de decoruri disponibile.
 
 Bucătăriile NobilForm combină estetica modernă cu funcționalitatea maximă.`,
  sections: [
@@ -47,8 +47,12 @@ Bucătăriile NobilForm combină estetica modernă cu funcționalitatea maximă.
  ],
  relatedMaterials: [
  { label: "Mobilă la comandă", href: "/mobila-la-comanda" },
- { label: "Preț bucătărie", href: "/stoimost-kuhni" },
- { label: "Termen execuție", href: "/srok-izgotovleniya" },
+ { label: "Bucătării moderne", href: "/bucatarii-moderne" },
+ { label: "Bucătării fără mânere", href: "/bucatarii-fara-manere" },
+ { label: "Bucătării AGT", href: "/bucatarii-agt" },
+ { label: "Bucătării EGGER", href: "/bucatarii-egger" },
+ { label: "Preț bucătărie", href: "/pret-bucatarie-la-comanda" },
+ { label: "Termen fabricare", href: "/termen-fabricare-mobila" },
  ],
  ctaWhatsAppText: "Bună! Sunt interesat de o bucătărie la comandă. Aș dori să aflu prețul și termenul.",
 };

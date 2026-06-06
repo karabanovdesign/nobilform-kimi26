@@ -7,6 +7,7 @@ interface HelmetSeoProps {
   ogImage?: string;
   ogType?: string;
   noindex?: boolean;
+  ogLocale?: string;
 }
 
 export function HelmetSeo({
@@ -16,6 +17,7 @@ export function HelmetSeo({
   ogImage = "https://nobilform.md/images/og-image.jpg",
   ogType = "website",
   noindex = false,
+  ogLocale = "ru_MD",
 }: HelmetSeoProps) {
   useEffect(() => {
     // Title
@@ -46,7 +48,7 @@ export function HelmetSeo({
       "og:url": canonical,
       "og:image": ogImage,
       "og:type": ogType,
-      "og:locale": "ru_MD",
+      "og:locale": ogLocale,
       "og:site_name": "NobilForm by KVDesign",
     };
 

@@ -52,8 +52,11 @@ Proiecte realizate în întreaga Moldovă. Condițiile de service în garanție 
  ],
  relatedMaterials: [
  { label: "Bucătării la comandă", href: "/bucatarii-la-comanda" },
- { label: "Preț bucătărie", href: "/stoimost-kuhni" },
- { label: "Termen execuție", href: "/srok-izgotovleniya" },
+ { label: "Dulapuri la comandă", href: "/dulapuri-la-comanda" },
+ { label: "Dressing la comandă", href: "/dressing-la-comanda" },
+ { label: "Mobilier living", href: "/mobilier-living-la-comanda" },
+ { label: "Preț bucătărie", href: "/pret-bucatarie-la-comanda" },
+ { label: "Termen fabricare", href: "/termen-fabricare-mobila" },
  ],
  ctaWhatsAppText: "Bună! Sunt interesat de mobilă la comandă. Aș dori să discut proiectul și să calculez costul.",
 };

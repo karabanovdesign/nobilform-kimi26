@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { HelmetSeo } from "@/components/HelmetSeo";
 import FaqSchema from "./FaqSchema";
 import BreadcrumbSchema from "./BreadcrumbSchema";
@@ -10,13 +11,67 @@ function openWhatsAppDirect(text: string) {
   window.location.href = `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`;
 }
 
+// RU ↔ RO slug mapping for hreflang
+const HREFLANG_PAIRS: Record<string, string> = {
+  "sovremennye-kuhni": "bucatarii-moderne",
+  "bucatarii-moderne": "sovremennye-kuhni",
+  "kuhni-bez-ruchek": "bucatarii-fara-manere",
+  "bucatarii-fara-manere": "kuhni-bez-ruchek",
+  "kuhni-agt": "bucatarii-agt",
+  "bucatarii-agt": "kuhni-agt",
+  "kuhni-egger": "bucatarii-egger",
+  "bucatarii-egger": "kuhni-egger",
+  "vstroennye-shkafy": "dulapuri-incorporate",
+  "dulapuri-incorporate": "vstroennye-shkafy",
+  "mebel-na-zakaz": "mobila-la-comanda",
+  "mobila-la-comanda": "mebel-na-zakaz",
+  "stoimost-kuhni": "pret-bucatarie-la-comanda",
+  "pret-bucatarie-la-comanda": "stoimost-kuhni",
+  "mdf-vs-dsp": "mdf-vs-pal",
+  "mdf-vs-pal": "mdf-vs-dsp",
+  "srok-izgotovleniya": "termen-fabricare-mobila",
+  "termen-fabricare-mobila": "srok-izgotovleniya",
+};
+
 interface Props {
   data: SeoArticleData;
   breadcrumbItems: { name: string; url: string }[];
 }
 
+function useHreflang(slug: string, lang: string) {
+  useEffect(() => {
+    const selfLang = lang === "ro" ? "ro-MD" : "ru-MD";
+    const altSlug = HREFLANG_PAIRS[slug];
+    const altLang = lang === "ro" ? "ru-MD" : "ro-MD";
+
+    // Self-referencing hreflang
+    const selfLink = document.createElement("link");
+    selfLink.rel = "alternate";
+    selfLink.hreflang = selfLang;
+    selfLink.href = `https://nobilform.md/${slug}`;
+    document.head.appendChild(selfLink);
+
+    // Alternate hreflang (if pair exists)
+    let altLink: HTMLLinkElement | null = null;
+    if (altSlug) {
+      altLink = document.createElement("link");
+      altLink.rel = "alternate";
+      altLink.hreflang = altLang;
+      altLink.href = `https://nobilform.md/${altSlug}`;
+      document.head.appendChild(altLink);
+    }
+
+    return () => {
+      document.head.removeChild(selfLink);
+      if (altLink) document.head.removeChild(altLink);
+    };
+  }, [slug, lang]);
+}
+
 export default function SeoArticleRenderer({ data, breadcrumbItems }: Props) {
   const isRo = data.lang === "ro";
+
+  useHreflang(data.slug, data.lang);
 
   const waText = data.ctaWhatsAppText
     ? encodeURIComponent(data.ctaWhatsAppText)
@@ -28,7 +83,12 @@ export default function SeoArticleRenderer({ data, breadcrumbItems }: Props) {
 
   return (
     <>
-      <HelmetSeo title={data.title} description={data.description} />
+      <HelmetSeo
+        title={data.title}
+        description={data.description}
+        canonical={`https://nobilform.md/${data.slug}`}
+        ogLocale={isRo ? "ro_MD" : "ru_MD"}
+      />
       <FaqSchema faq={data.faq} />
       <BreadcrumbSchema items={breadcrumbItems} />
 
