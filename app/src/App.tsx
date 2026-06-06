@@ -10,6 +10,7 @@ import SeoTvZonesPage from "./pages/SeoTvZonesPage";
 import SeoWallsPage from "./pages/SeoWallsPage";
 import SeoBlogPage from "./pages/SeoBlogPage";
 import ThankYouPage from "./pages/ThankYouPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import SeoArticlePage from "./pages/SeoArticlePage";
 
 // SEO article data (new pages)
@@ -72,6 +73,7 @@ function AppContent() {
           <Route path="/srok-izgotovleniya" element={<SeoArticlePage data={srokIzgotovleniya} />} />
           <Route path="/bucatarii-la-comanda" element={<SeoArticlePage data={bucatariiLaComanda} />} />
           <Route path="/mobila-la-comanda" element={<SeoArticlePage data={mobilaLaComanda} />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         {location.pathname !== "/thank-you" && <ChatWidget />}
       </div>
