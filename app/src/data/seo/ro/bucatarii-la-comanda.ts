@@ -14,7 +14,7 @@ Bucătăriile NobilForm combină estetica modernă cu funcționalitatea maximă.
   sections: [
     {
       h2: "Materiale pentru bucătăria ta",
-      text: `**EGGER PAL** — corpuri tuturor bucătăriilor. 200+ decoruri, FSC, E0.5. De la 650 €/m.\n\n**AGT MDF** — fațade. 500+ decoruri, acoperire antibacteriană. De la 1000 €/m.\n\n**MDF vopsit mat** — 200+ culori RAL, Soft Touch. De la 1270 €/m.\n\n**MDF vopsit lucios** — reflexe oglindă. De la 1350 €/m.\n\n**Cleaf (Italia)** — decoruri designer, texturi tactile. Preț la cerere.`,
+      text: `**EGGER PAL** — corpuri tuturor bucătăriilor. De la 650 €/m.\n\n**AGT MDF** — fațade. De la 1000 €/m.\n\n**MDF vopsit mat** — Soft Touch. De la 1270 €/m.\n\n**MDF vopsit lucios** — reflexe oglindă. De la 1350 €/m.\n\n**Cleaf (Italia)** — decoruri designer, texturi tactile. Preț la cerere.`,
     },
     {
       h2: "Stiluri de bucătării 2026",
