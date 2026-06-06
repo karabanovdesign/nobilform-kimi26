@@ -205,7 +205,7 @@ export default function SeoArticleRenderer({ data, breadcrumbItems }: Props) {
             </button>
             <button
               onClick={() => {
-                const chatBtn = document.querySelector("button[style*='linear-gradient(135deg, #b8945a']") as HTMLButtonElement | null;
+                const chatBtn = document.querySelector("button[style*='linear-gradient(135deg, #D6C1A3']") as HTMLButtonElement | null;
                 chatBtn?.click();
               }}
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded text-sm font-medium tracking-[2px] uppercase transition-all hover:-translate-y-0.5 hover:scale-[1.02]"
