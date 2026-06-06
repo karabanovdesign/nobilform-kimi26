@@ -62,5 +62,27 @@ export default function App() {
     }
   }, [location.pathname]);
 
+  // Detect return from WhatsApp via focus/visibilitychange (no page reload needed)
+  useEffect(() => {
+    const checkReturn = () => {
+      if (sessionStorage.getItem("nobilform_show_thankyou_after_return")) {
+        sessionStorage.removeItem("nobilform_show_thankyou_after_return");
+        window.location.replace("/#/thank-you");
+      }
+    };
+
+    window.addEventListener("focus", checkReturn);
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        checkReturn();
+      }
+    });
+
+    return () => {
+      window.removeEventListener("focus", checkReturn);
+    };
+  }, []);
+
   return <AppContent />;
 }
