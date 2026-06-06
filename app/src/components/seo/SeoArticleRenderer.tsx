@@ -204,10 +204,7 @@ export default function SeoArticleRenderer({ data, breadcrumbItems }: Props) {
               {isRo ? "Scrieți pe WhatsApp" : "Написать в WhatsApp"}
             </button>
             <button
-              onClick={() => {
-                const chatBtn = document.querySelector("button[style*='linear-gradient(135deg, #D6C1A3']") as HTMLButtonElement | null;
-                chatBtn?.click();
-              }}
+              onClick={() => window.dispatchEvent(new CustomEvent("open-nobilform-chat"))}
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded text-sm font-medium tracking-[2px] uppercase transition-all hover:-translate-y-0.5 hover:scale-[1.02]"
               style={{
                 background: "rgba(184,148,90,0.1)",

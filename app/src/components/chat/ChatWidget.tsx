@@ -169,6 +169,13 @@ export default function ChatWidget() {
     return () => clearTimeout(showTimer);
   }, [isOpen]);
 
+  // ===== OPEN CHAT FROM EXTERNAL PAGES (SEO, etc.) via CustomEvent =====
+  useEffect(() => {
+    const handler = () => setIsOpen(true);
+    window.addEventListener("open-nobilform-chat", handler);
+    return () => window.removeEventListener("open-nobilform-chat", handler);
+  }, []);
+
   // ===== CLOSET CALCULATOR CONSTANTS =====
   const CLOSET_TYPES_RU = [
     { id: "встроенный", label: "Встроенный" },
