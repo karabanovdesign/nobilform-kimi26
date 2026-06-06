@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { HelmetSeo } from "@/components/HelmetSeo";
+import { openWhatsAppDirect } from "@/lib/whatsapp";
 
 const CONTENT: Record<string, {
   title: string;
@@ -62,7 +63,7 @@ const CONTENT: Record<string, {
   },
   uglovye: {
     title: "Угловые кухни на заказ в Кишиневе | NobilForm — Г-образные и П-образные",
-    description: "Угловые кухни премиум-класса на заказ в Кишиневе. Г-образные и П-образные конфигурации. Авторский дизайн, бесплатный замер, 3D-проект. От 750 €/м.",
+    description: "Угловые кухни премиум-класса на заказ в Кишиневе. Г-образные и П-образные конфигурации. Авторский дизайн, выезд дизайнера (300 леев, вычитается при заказе), 3D-проект. От 750 €/м.",
     h1: "Угловые кухни на заказ в Кишиневе",
     intro: `Угловая кухня — оптимальное решение для большинства квартир в Кишиневе. Конфигурация Г-образная или П-образная позволяет эффективно использовать угловое пространство, создавая эргономичный рабочий треугольник (холодильник — мойка — плита).\n\nNobilForm проектирует и изготавливает угловые кухни любой сложности — от компактных Г-образных для однокомнатных квартир до просторных П-образных для частных домов.`,
     sections: [
@@ -93,7 +94,7 @@ const CONTENT: Record<string, {
   },
   pryamye: {
     title: "Прямые кухни на заказ в Кишиневе | NobilForm — линейные кухни премиум",
-    description: "Прямые линейные кухни на заказ в Кишиневе. Идеальны для маленьких квартир и студий. Авторский дизайн, бесплатный замер. От 650 €/м.",
+    description: "Прямые линейные кухни на заказ в Кишиневе. Идеальны для маленьких квартир и студий. Авторский дизайн, выезд дизайнера (300 леев, вычитается при заказе). От 650 €/м.",
     h1: "Прямые кухни на заказ в Кишиневе",
     intro: `Прямая (линейная) кухня — все модули расположены в одну линию вдоль стены. Это классическая конфигурация, идеальная для небольших кухонь, квартир-студий и вторых кухонь в частных домах.\n\nНесмотря на простоту формы, прямая кухня может быть невероятно стильной и функциональной — правильная планировка, качественные материалы и продуманное освещение делают её комфортной для ежедневной готовки.`,
     sections: [
@@ -223,7 +224,7 @@ export default function SeoKitchensPage({ variant = "default" }: { variant?: str
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <a href="tel:+37360599907" className="px-8 py-3 rounded text-sm font-medium tracking-[2px] uppercase transition-all hover:-translate-y-0.5" style={{ background: "#b8945a", color: "#0d0d0d" }}>Позвонить</a>
-          <a href="https://wa.me/37360599907" className="px-8 py-3 rounded text-sm font-medium tracking-[2px] uppercase transition-all hover:-translate-y-0.5" style={{ background: "transparent", color: "#f5f3ef", border: "1px solid rgba(184,148,90,0.4)" }}>WhatsApp</a>
+          <button onClick={() => openWhatsAppDirect("")} className="px-8 py-3 rounded text-sm font-medium tracking-[2px] uppercase transition-all hover:-translate-y-0.5" style={{ background: "transparent", color: "#f5f3ef", border: "1px solid rgba(184,148,90,0.4)", cursor: "pointer" }}>WhatsApp</button>
         </div>
       </div>
 

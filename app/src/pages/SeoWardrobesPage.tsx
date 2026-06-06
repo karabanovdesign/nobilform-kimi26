@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { HelmetSeo } from "@/components/HelmetSeo";
+import { openWhatsAppDirect } from "@/lib/whatsapp";
 
 export default function SeoWardrobesPage() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -45,7 +46,7 @@ export default function SeoWardrobesPage() {
         <h2 className="font-light mb-4" style={{ fontSize: "clamp(1.4rem,3vw,2rem)", fontFamily: "'Playfair Display', serif", color: "#f5f3ef" }}>Закажите гардеробную мечты</h2>
         <div className="flex flex-wrap justify-center gap-4">
           <a href="tel:+37360599907" className="px-8 py-3 rounded text-sm font-medium tracking-[2px] uppercase transition-all hover:-translate-y-0.5" style={{ background: "#b8945a", color: "#0d0d0d" }}>Позвонить</a>
-          <a href="https://wa.me/37360599907" className="px-8 py-3 rounded text-sm font-medium tracking-[2px] uppercase transition-all hover:-translate-y-0.5" style={{ background: "transparent", color: "#f5f3ef", border: "1px solid rgba(184,148,90,0.4)" }}>WhatsApp</a>
+          <button onClick={() => openWhatsAppDirect("")} className="px-8 py-3 rounded text-sm font-medium tracking-[2px] uppercase transition-all hover:-translate-y-0.5" style={{ background: "transparent", color: "#f5f3ef", border: "1px solid rgba(184,148,90,0.4)", cursor: "pointer" }}>WhatsApp</button>
         </div>
       </div>
     </div>
