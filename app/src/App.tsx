@@ -10,6 +10,24 @@ import SeoTvZonesPage from "./pages/SeoTvZonesPage";
 import SeoWallsPage from "./pages/SeoWallsPage";
 import SeoBlogPage from "./pages/SeoBlogPage";
 import ThankYouPage from "./pages/ThankYouPage";
+import SeoArticlePage from "./pages/SeoArticlePage";
+
+// SEO article data (new pages)
+import sovremennyeKuhni from "./data/seo/ru/sovremennye-kuhni";
+import kuhniBezRuchek from "./data/seo/ru/kuhni-bez-ruchek";
+import kuhniMdf from "./data/seo/ru/kuhni-mdf";
+import kuhniAgt from "./data/seo/ru/kuhni-agt";
+import kuhniEgger from "./data/seo/ru/kuhni-egger";
+import kuhniFenix from "./data/seo/ru/kuhni-fenix";
+import vstroennyeShkafy from "./data/seo/ru/vstroennye-shkafy";
+import mebelNaZakaz from "./data/seo/ru/mebel-na-zakaz";
+import stoimostKuhni from "./data/seo/ru/stoimost-kuhni";
+import agtVsEgger from "./data/seo/ru/agt-vs-egger";
+import mdfVsDsp from "./data/seo/ru/mdf-vs-dsp";
+import srokIzgotovleniya from "./data/seo/ru/srok-izgotovleniya";
+import bucatariiLaComanda from "./data/seo/ro/bucatarii-la-comanda";
+import mobilaLaComanda from "./data/seo/ro/mobila-la-comanda";
+
 import Navigation from "./sections/Navigation";
 import ChatWidget from "./components/chat/ChatWidget";
 import Preloader from "./components/Preloader";
@@ -41,6 +59,21 @@ function AppContent() {
           <Route path="/tv-zony" element={<SeoTvZonesPage />} />
           <Route path="/dekorativnye-steny" element={<SeoWallsPage />} />
           <Route path="/thank-you" element={<ThankYouPage />} />
+          {/* New SEO article pages */}
+          <Route path="/sovremennye-kuhni" element={<SeoArticlePage data={sovremennyeKuhni} />} />
+          <Route path="/kuhni-bez-ruchek" element={<SeoArticlePage data={kuhniBezRuchek} />} />
+          <Route path="/kuhni-mdf" element={<SeoArticlePage data={kuhniMdf} />} />
+          <Route path="/kuhni-agt" element={<SeoArticlePage data={kuhniAgt} />} />
+          <Route path="/kuhni-egger" element={<SeoArticlePage data={kuhniEgger} />} />
+          <Route path="/kuhni-fenix" element={<SeoArticlePage data={kuhniFenix} />} />
+          <Route path="/vstroennye-shkafy" element={<SeoArticlePage data={vstroennyeShkafy} />} />
+          <Route path="/mebel-na-zakaz" element={<SeoArticlePage data={mebelNaZakaz} />} />
+          <Route path="/stoimost-kuhni" element={<SeoArticlePage data={stoimostKuhni} />} />
+          <Route path="/agt-vs-egger" element={<SeoArticlePage data={agtVsEgger} />} />
+          <Route path="/mdf-vs-dsp" element={<SeoArticlePage data={mdfVsDsp} />} />
+          <Route path="/srok-izgotovleniya" element={<SeoArticlePage data={srokIzgotovleniya} />} />
+          <Route path="/bucatarii-la-comanda" element={<SeoArticlePage data={bucatariiLaComanda} />} />
+          <Route path="/mobila-la-comanda" element={<SeoArticlePage data={mobilaLaComanda} />} />
         </Routes>
         {location.pathname !== "/thank-you" && <ChatWidget />}
       </div>
