@@ -32,12 +32,20 @@ function openWhatsAppDirect(phone: string, text: string) {
   window.location.href = `whatsapp://send?phone=${phone}&text=${encodedText}`;
 }
 
+// ===== VIBER HELPER =====
+// Opens Viber chat — MUST be called synchronously from onClick
+function openViberDirect(phone: string) {
+  sessionStorage.setItem("nobilform_show_thankyou_after_return", "1");
+  window.location.href = `viber://chat?number=%2B${phone}`;
+}
+
 // ===== CONSTANTS =====
 const WELCOME_RU = "Здравствуйте! Чем могу помочь?";
 const WELCOME_RO = "Bună ziua! Cu ce vă pot ajuta?";
 const STORAGE_KEY = "nobilform_chat_v5";
 
 const WHATSAPP_NUMBER = "37360599907";
+const VIBER_NUMBER = "37360599907";
 const EMAIL_ADDRESS = "nobilaform@gmail.com";
 
 // ===== QUICK QUESTIONS =====
@@ -361,6 +369,15 @@ export default function ChatWidget() {
       openWhatsAppDirect(WHATSAPP_NUMBER, waMsg);
     }
   }, [lang, messages]);
+
+  // ===== VIBER SEND (project/phone) =====
+  const sendToViber = useCallback((type: "phone" | "project", data?: string) => {
+    if (type === "phone" && data) {
+      openViberDirect(VIBER_NUMBER);
+    } else if (type === "project") {
+      openViberDirect(VIBER_NUMBER);
+    }
+  }, []);
 
   const sendToEmail = useCallback(() => {
     const projectText = lastCalcResultRef.current || messages.slice(-8).map(m => `${m.role === "user" ? "Client" : "AI"}: ${m.content.substring(0, 120)}`).join("\n%0D%0A");
@@ -1026,7 +1043,7 @@ export default function ChatWidget() {
         setIsLoading(false);
       }
     }, 400);
-  }, [messages, isLoading, lang, mode, calculator, sendToWhatsApp, contextProduct, dialogStep, wizardState, wizardStep]);
+  }, [messages, isLoading, lang, mode, calculator, sendToWhatsApp, sendToViber, contextProduct, dialogStep, wizardState, wizardStep]);
 
   // ===== CALCULATOR FLOW =====
   const startCalculator = useCallback(() => {
@@ -1452,6 +1469,14 @@ export default function ChatWidget() {
                     WhatsApp
                   </button>
                   <button
+                    onClick={() => { openViberDirect(VIBER_NUMBER); }}
+                    className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105"
+                    style={{ background: "rgba(102,92,172,0.08)", color: "#665CAC", border: "1px solid rgba(102,92,172,0.15)" }}
+                  >
+                    <Phone className="w-3.5 h-3.5" />
+                    Viber
+                  </button>
+                  <button
                     onClick={() => {
                       const subject = encodeURIComponent(currentLang === "ro" ? "Proiect Zonă TV / Panouri Decorative" : "Проект ТВ-зона / Декоративные панели");
                       const body = encodeURIComponent(
@@ -1499,6 +1524,10 @@ export default function ChatWidget() {
                   <button onClick={() => sendToWhatsApp("project")} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105" style={{ background: "rgba(37,211,102,0.08)", color: "#25d366", border: "1px solid rgba(37,211,102,0.15)" }}>
                     <MessageSquare className="w-3.5 h-3.5" />
                     WhatsApp
+                  </button>
+                  <button onClick={() => sendToViber("project")} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105" style={{ background: "rgba(102,92,172,0.08)", color: "#665CAC", border: "1px solid rgba(102,92,172,0.15)" }}>
+                    <Phone className="w-3.5 h-3.5" />
+                    Viber
                   </button>
                   <button onClick={sendToEmail} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105" style={{ background: "rgba(59,130,246,0.08)", color: "#60a5fa", border: "1px solid rgba(59,130,246,0.15)" }}>
                     <Mail className="w-3.5 h-3.5" />
@@ -1564,10 +1593,16 @@ export default function ChatWidget() {
                   ))}
                 </div>
 
-                <button onClick={() => sendToWhatsApp("project")} className="w-full flex items-center justify-center gap-2 text-xs px-3 py-2 rounded-xl transition-all hover:scale-[1.02]" style={{ background: "rgba(37,211,102,0.08)", color: "#25d366", border: "1px solid rgba(37,211,102,0.15)" }}>
-                  <MessageSquare className="w-3.5 h-3.5" />
-                  {currentLang === "ro" ? "Continuă pe WhatsApp" : "Продолжить в WhatsApp"}
-                </button>
+                <div className="flex gap-2">
+                  <button onClick={() => sendToWhatsApp("project")} className="flex-1 flex items-center justify-center gap-2 text-xs px-3 py-2 rounded-xl transition-all hover:scale-[1.02]" style={{ background: "rgba(37,211,102,0.08)", color: "#25d366", border: "1px solid rgba(37,211,102,0.15)" }}>
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    WhatsApp
+                  </button>
+                  <button onClick={() => sendToViber("project")} className="flex-1 flex items-center justify-center gap-2 text-xs px-3 py-2 rounded-xl transition-all hover:scale-[1.02]" style={{ background: "rgba(102,92,172,0.08)", color: "#665CAC", border: "1px solid rgba(102,92,172,0.15)" }}>
+                    <Phone className="w-3.5 h-3.5" />
+                    Viber
+                  </button>
+                </div>
               </div>
             )}
 
