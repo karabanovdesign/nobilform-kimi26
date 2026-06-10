@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useLang } from "@/providers/LangProvider";
 import { trpc } from "@/providers/trpc";
+import { toast } from "sonner";
 import {
   MessageCircle, X, Send, Bot, User, Phone, Mic, MicOff,
   Calculator, ImageIcon, MessageSquare,
@@ -370,14 +371,51 @@ export default function ChatWidget() {
     }
   }, [lang, messages]);
 
-  // ===== VIBER SEND (project/phone) =====
+  // ===== VIBER SEND (project/phone with full context) =====
+  // Viber protocol (viber://chat) does NOT support pre-filled text.
+  // Strategy: copy text to clipboard → show toast → open Viber chat.
+  // User pastes the text manually after seeing guidance toast.
   const sendToViber = useCallback((type: "phone" | "project", data?: string) => {
+    const chatHistory = messages.slice(-10).map(m =>
+      `${m.role === "user" ? "[Client]" : "[AI]"}: ${m.content.substring(0, 150)}`
+    ).join("\n");
+
+    let viberText = "";
     if (type === "phone" && data) {
-      openViberDirect(VIBER_NUMBER);
+      viberText = lang === "ro"
+        ? `Bună! Sunt client NobilForm AI.\n\n📞 Numărul meu: +${data}\n\n💬 Istoric conversație:\n${chatHistory}\n\nRog să mă contactați pentru consultare.`
+        : `Здравствуйте! Я клиент NobilForm AI.\n\n📞 Мой номер: +${data}\n\n💬 История диалога:\n${chatHistory}\n\nПрошу связаться для консультации.`;
     } else if (type === "project") {
-      openViberDirect(VIBER_NUMBER);
+      const projectText = lastCalcResultRef.current || chatHistory;
+      viberText = lang === "ro"
+        ? `Bună! Am pregătit proiectul la NobilForm AI.\n\n📋 Detalii:\n${projectText}\n\nRog revizuirea și contactarea mea.`
+        : `Здравствуйте! Я подготовил проект в NobilForm AI.\n\n📋 Детали:\n${projectText}\n\nПрошу рассмотреть и связаться со мной.`;
     }
-  }, []);
+
+    // Step 1: Copy text to clipboard, then show toast, then open Viber
+    navigator.clipboard.writeText(viberText)
+      .then(() => {
+        // SUCCESS: show guidance toast, then open Viber
+        toast.success(
+          lang === "ro"
+            ? '📋 Proiectul a fost copiat în clipboard. După deschiderea Viber apăsați "Lipire" și trimiteți mesajul.'
+            : "📋 Проект скопирован в буфер обмена. После открытия Viber нажмите «Вставить» и отправьте сообщение.",
+          { duration: 6000 }
+        );
+        // Small delay so user sees toast before app switch
+        setTimeout(() => openViberDirect(VIBER_NUMBER), 400);
+      })
+      .catch(() => {
+        // ERROR: clipboard blocked — show warning, still open Viber
+        toast.error(
+          lang === "ro"
+            ? "Nu s-a putut copia automat proiectul. Copiați textul manual."
+            : "Не удалось автоматически скопировать проект. Скопируйте текст вручную.",
+          { duration: 6000 }
+        );
+        setTimeout(() => openViberDirect(VIBER_NUMBER), 400);
+      });
+  }, [lang, messages]);
 
   const sendToEmail = useCallback(() => {
     const projectText = lastCalcResultRef.current || messages.slice(-8).map(m => `${m.role === "user" ? "Client" : "AI"}: ${m.content.substring(0, 120)}`).join("\n%0D%0A");
@@ -1472,9 +1510,10 @@ export default function ChatWidget() {
                     onClick={() => { openViberDirect(VIBER_NUMBER); }}
                     className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105"
                     style={{ background: "rgba(102,92,172,0.08)", color: "#665CAC", border: "1px solid rgba(102,92,172,0.15)" }}
+                    title={currentLang === "ro" ? "Textul proiectului va fi copiat în clipboard" : "Текст проекта будет скопирован в буфер обмена"}
                   >
                     <Phone className="w-3.5 h-3.5" />
-                    Viber
+                    Viber 📋
                   </button>
                   <button
                     onClick={() => {
@@ -1525,9 +1564,9 @@ export default function ChatWidget() {
                     <MessageSquare className="w-3.5 h-3.5" />
                     WhatsApp
                   </button>
-                  <button onClick={() => sendToViber("project")} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105" style={{ background: "rgba(102,92,172,0.08)", color: "#665CAC", border: "1px solid rgba(102,92,172,0.15)" }}>
+                  <button onClick={() => sendToViber("project")} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105" style={{ background: "rgba(102,92,172,0.08)", color: "#665CAC", border: "1px solid rgba(102,92,172,0.15)" }} title={currentLang === "ro" ? "Textul proiectului va fi copiat în clipboard" : "Текст проекта будет скопирован в буфер обмена"}>
                     <Phone className="w-3.5 h-3.5" />
-                    Viber
+                    Viber 📋
                   </button>
                   <button onClick={sendToEmail} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:scale-105" style={{ background: "rgba(59,130,246,0.08)", color: "#60a5fa", border: "1px solid rgba(59,130,246,0.15)" }}>
                     <Mail className="w-3.5 h-3.5" />
@@ -1598,9 +1637,9 @@ export default function ChatWidget() {
                     <MessageSquare className="w-3.5 h-3.5" />
                     WhatsApp
                   </button>
-                  <button onClick={() => sendToViber("project")} className="flex-1 flex items-center justify-center gap-2 text-xs px-3 py-2 rounded-xl transition-all hover:scale-[1.02]" style={{ background: "rgba(102,92,172,0.08)", color: "#665CAC", border: "1px solid rgba(102,92,172,0.15)" }}>
+                  <button onClick={() => sendToViber("project")} className="flex-1 flex items-center justify-center gap-2 text-xs px-3 py-2 rounded-xl transition-all hover:scale-[1.02]" style={{ background: "rgba(102,92,172,0.08)", color: "#665CAC", border: "1px solid rgba(102,92,172,0.15)" }} title={currentLang === "ro" ? "Textul proiectului va fi copiat în clipboard" : "Текст проекта будет скопирован в буфер обмена"}>
                     <Phone className="w-3.5 h-3.5" />
-                    Viber
+                    Viber 📋
                   </button>
                 </div>
               </div>
